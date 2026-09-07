@@ -36,29 +36,28 @@ export default function CountdownTimer({ targetDate = '2026-09-27T09:00:00' }) {
 
   if (timeLeft.isPassed) {
     return (
-      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-xs">
+      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-xs">
         <Clock className="w-3.5 h-3.5" />
-        <span>Contest Started</span>
+        <span>เริ่มการแข่งขันแล้ว</span>
       </div>
     );
   }
 
   const items = [
-    { value: timeLeft.days, label: 'd' },
-    { value: String(timeLeft.hours).padStart(2, '0'), label: 'h' },
-    { value: String(timeLeft.minutes).padStart(2, '0'), label: 'm' },
-    { value: String(timeLeft.seconds).padStart(2, '0'), label: 's' }
+    { value: timeLeft.days, label: 'วัน' },
+    { value: String(timeLeft.hours).padStart(2, '0'), label: 'ชม.' },
+    { value: String(timeLeft.minutes).padStart(2, '0'), label: 'น.' },
+    { value: String(timeLeft.seconds).padStart(2, '0'), label: 'วิ' }
   ];
 
   return (
-    <div className="flex items-center gap-1 bg-slate-900/80 border border-slate-800/80 rounded-xl px-2.5 py-1 text-xs font-mono backdrop-blur-sm">
+    <div className="flex items-center gap-1 bg-slate-900/90 border border-slate-800 rounded-xl px-2.5 py-1 text-xs font-mono backdrop-blur-sm">
       <Clock className="w-3.5 h-3.5 text-indigo-400 mr-1 shrink-0" />
       <div className="flex items-center gap-1 text-slate-300">
-        {items.map((item, idx) => (
+        {items.map((item) => (
           <React.Fragment key={item.label}>
             <span className="font-semibold text-slate-100">{item.value}</span>
             <span className="text-[10px] text-slate-400 mr-0.5">{item.label}</span>
-            {idx < items.length - 1 && <span className="text-slate-600">:</span>}
           </React.Fragment>
         ))}
       </div>

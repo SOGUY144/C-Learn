@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Settings, Send, Calendar, Save, Trash2, Check, AlertCircle } from 'lucide-react';
+import { X, Settings, Trash2, Check, AlertCircle, Save } from 'lucide-react';
 import { sendDiscordWebhook, buildDiscordReportPayload } from '../services/discord';
 
 export default function SettingsModal({
@@ -16,7 +16,7 @@ export default function SettingsModal({
 
   async function handleTestWebhook() {
     if (!webhookUrl) {
-      setTestStatus({ type: 'error', message: 'Enter Discord Webhook URL first.' });
+      setTestStatus({ type: 'error', message: 'กรุณากรอก Discord Webhook URL ก่อนทดสอบ' });
       return;
     }
 
@@ -24,11 +24,11 @@ export default function SettingsModal({
     setTestStatus(null);
     try {
       const payload = buildDiscordReportPayload(state, {}, 1);
-      payload.embeds[0].title = '[C-Learn] Discord Webhook Test';
+      payload.embeds[0].title = '[C-Learn] ทดสอบการเชื่อมต่อ Discord Webhook';
       await sendDiscordWebhook(webhookUrl, payload);
-      setTestStatus({ type: 'success', message: 'Test message sent successfully.' });
+      setTestStatus({ type: 'success', message: 'ส่งข้อความทดสอบเข้า Discord สำเร็จ' });
     } catch (err) {
-      setTestStatus({ type: 'error', message: `Failed to send: ${err.message}` });
+      setTestStatus({ type: 'error', message: `ไม่สามารถส่งได้: ${err.message}` });
     } finally {
       setIsTesting(false);
     }
@@ -43,20 +43,20 @@ export default function SettingsModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
       <div 
-        className="relative w-full max-w-md rounded-xl bg-zinc-900 border border-zinc-800 shadow-2xl p-5"
+        className="relative w-full max-w-md rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl p-5"
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-800">
           <div className="flex items-center gap-2">
-            <Settings className="w-4 h-4 text-zinc-400" />
-            <h3 className="font-mono font-semibold text-sm text-zinc-100">Settings</h3>
+            <Settings className="w-4 h-4 text-indigo-400" />
+            <h3 className="font-mono font-semibold text-sm text-slate-100">การตั้งค่าระบบ</h3>
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 transition"
+            className="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition"
           >
             <X className="w-4 h-4" />
           </button>
@@ -67,7 +67,7 @@ export default function SettingsModal({
           
           {/* Discord Webhook */}
           <div>
-            <label className="block text-zinc-300 font-medium mb-1">
+            <label className="block text-slate-300 font-medium mb-1">
               Discord Webhook URL
             </label>
             <input
@@ -75,24 +75,24 @@ export default function SettingsModal({
               placeholder="https://discord.com/api/webhooks/..."
               value={webhookUrl}
               onChange={e => setWebhookUrl(e.target.value)}
-              className="w-full px-3 py-1.5 rounded-lg bg-zinc-950/60 border border-zinc-800 text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-600 transition"
+              className="w-full px-3 py-1.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500/50 transition"
             />
             <div className="flex items-center justify-between mt-1.5">
-              <span className="text-[10px] text-zinc-500">
-                Daily reports sent to your team channel.
+              <span className="text-[10px] text-slate-400">
+                สำหรับส่งสรุปรายงานประจำวันเข้าห้อง Discord ของทีม
               </span>
               <button
                 type="button"
                 onClick={handleTestWebhook}
                 disabled={isTesting || !webhookUrl}
-                className="px-2 py-0.5 rounded bg-zinc-800 hover:bg-zinc-750 border border-zinc-700 text-zinc-300 text-[11px] disabled:opacity-40"
+                className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-750 border border-slate-700 text-slate-300 hover:text-white text-[11px] disabled:opacity-40 transition"
               >
-                {isTesting ? 'Testing...' : 'Test'}
+                {isTesting ? 'กำลังทดสอบ...' : 'ทดสอบส่ง'}
               </button>
             </div>
 
             {testStatus && (
-              <div className={`mt-2 p-2 rounded border flex items-center gap-1.5 text-[11px] ${
+              <div className={`mt-2 p-2 rounded-lg border flex items-center gap-1.5 text-[11px] ${
                 testStatus.type === 'success' 
                   ? 'bg-emerald-950/40 border-emerald-800/60 text-emerald-300' 
                   : 'bg-rose-950/40 border-rose-800/60 text-rose-300'
@@ -109,48 +109,48 @@ export default function SettingsModal({
 
           {/* Contest Date */}
           <div>
-            <label className="block text-zinc-300 font-medium mb-1">
-              Target Contest Date
+            <label className="block text-slate-300 font-medium mb-1">
+              วันและเวลาเป้าหมายการแข่งขัน
             </label>
             <input
               type="datetime-local"
               value={contestDate}
               onChange={e => setContestDate(e.target.value)}
-              className="w-full px-3 py-1.5 rounded-lg bg-zinc-950/60 border border-zinc-800 text-zinc-200 focus:outline-none focus:border-zinc-600 transition"
+              className="w-full px-3 py-1.5 rounded-xl bg-slate-950/70 border border-slate-800 text-slate-200 focus:outline-none focus:border-indigo-500/50 transition"
             />
           </div>
 
           {/* Reset Data */}
-          <div className="pt-3 border-t border-zinc-800 flex items-center justify-between">
+          <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
             <div>
-              <span className="text-zinc-300 font-medium block text-xs">Reset All Data</span>
-              <span className="text-[10px] text-zinc-500">Clear local checklist state.</span>
+              <span className="text-slate-300 font-medium block text-xs">ล้างข้อมูลความคืบหน้า</span>
+              <span className="text-[10px] text-slate-500">รีเซ็ตสถานะการติ๊กงานในเครื่องนี้ทั้งหมด</span>
             </div>
             <button
               onClick={onResetData}
-              className="flex items-center gap-1 px-2.5 py-1 rounded bg-zinc-900 hover:bg-rose-950/50 border border-zinc-800 hover:border-rose-900 text-zinc-400 hover:text-rose-300 transition text-[11px]"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-950 hover:bg-rose-950/40 border border-slate-800 hover:border-rose-900 text-slate-400 hover:text-rose-300 transition text-[11px]"
             >
               <Trash2 className="w-3 h-3" />
-              <span>Reset</span>
+              <span>รีเซ็ตข้อมูล</span>
             </button>
           </div>
 
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-2 pt-3 border-t border-zinc-800 font-mono text-xs">
+        <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-800 font-mono text-xs">
           <button
             onClick={onClose}
-            className="px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-300 transition"
+            className="px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-750 border border-slate-700 text-slate-300 hover:text-white transition"
           >
-            Cancel
+            ยกเลิก
           </button>
           <button
             onClick={handleSave}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-white text-zinc-950 font-semibold transition"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition shadow-sm"
           >
             <Save className="w-3.5 h-3.5" />
-            <span>Save</span>
+            <span>บันทึกการตั้งค่า</span>
           </button>
         </div>
 

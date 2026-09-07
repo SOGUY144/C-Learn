@@ -3,8 +3,7 @@ import {
   Search, 
   ExternalLink, 
   CheckSquare, 
-  Square,
-  Play
+  Square
 } from 'lucide-react';
 import { ALL_PLAYLIST_VIDEOS, PLAYLIST_PROGRAMMING_ID, PLAYLIST_DSA_ID } from '../data/curriculum';
 
@@ -32,16 +31,19 @@ export default function VideoCatalog({ state, onToggleVideo }) {
     });
   }, [search, playlistFilter]);
 
+  const progCount = ALL_PLAYLIST_VIDEOS.filter(v => v.playlist === 'prog').length;
+  const dsaCount = ALL_PLAYLIST_VIDEOS.filter(v => v.playlist === 'dsa').length;
+
   return (
     <section className="my-5 p-5 sm:p-6 rounded-2xl bg-slate-900/50 backdrop-blur-sm border border-slate-800/90 shadow-sm">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800/80">
         <div>
           <h2 className="text-sm font-semibold font-mono tracking-tight text-slate-200">
-            Video Catalog
+            คลังวิดีโอทั้งหมด (161 คลิป)
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            CEDT Computer Programming & Data Structures by Ajarn Nattee Niparnan
+            CEDT Computer Programming & Data Structures โดย อ.ณัฐที นิภานันท์ (จุฬาลงกรณ์มหาวิทยาลัย)
           </p>
         </div>
 
@@ -50,18 +52,18 @@ export default function VideoCatalog({ state, onToggleVideo }) {
             href={`https://www.youtube.com/playlist?list=${PLAYLIST_PROGRAMMING_ID}`}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-800 text-slate-300 hover:text-white transition"
           >
-            <span>Playlist 1 (Prog)</span>
+            <span>เพลย์ลิสต์ Prog บน YouTube</span>
             <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
           </a>
           <a
             href={`https://www.youtube.com/playlist?list=${PLAYLIST_DSA_ID}`}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-800 text-slate-300 hover:text-white transition"
           >
-            <span>Playlist 2 (DSA)</span>
+            <span>เพลย์ลิสต์ DSA บน YouTube</span>
             <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
           </a>
         </div>
@@ -73,7 +75,7 @@ export default function VideoCatalog({ state, onToggleVideo }) {
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search videos (e.g. pointer, sort, vector)..."
+            placeholder="ค้นหาคลิปวิดีโอ (เช่น vector, sort, loop, pointer, binary search)..."
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-950/60 border border-slate-800 text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500/50 transition"
@@ -89,7 +91,7 @@ export default function VideoCatalog({ state, onToggleVideo }) {
                 : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200'
             }`}
           >
-            All ({ALL_PLAYLIST_VIDEOS.length})
+            ทั้งหมด ({ALL_PLAYLIST_VIDEOS.length})
           </button>
           <button
             onClick={() => setPlaylistFilter('prog')}
@@ -99,7 +101,7 @@ export default function VideoCatalog({ state, onToggleVideo }) {
                 : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200'
             }`}
           >
-            Prog (30)
+            Programming ({progCount})
           </button>
           <button
             onClick={() => setPlaylistFilter('dsa')}
@@ -109,7 +111,7 @@ export default function VideoCatalog({ state, onToggleVideo }) {
                 : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:text-slate-200'
             }`}
           >
-            DSA
+            DSA ({dsaCount})
           </button>
         </div>
       </div>
@@ -142,7 +144,7 @@ export default function VideoCatalog({ state, onToggleVideo }) {
 
             {/* Checkbox row */}
             <div className="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
-              <span className="text-[11px] text-slate-400">Watched:</span>
+              <span className="text-[11px] text-slate-400">ดูแล้ว:</span>
               <div className="flex items-center gap-2.5">
                 {memberKeys.map(k => {
                   const isWatched = !!members[k]?.completedVideos?.[vid.id];
@@ -172,7 +174,7 @@ export default function VideoCatalog({ state, onToggleVideo }) {
 
         {filteredVideos.length === 0 && (
           <div className="col-span-2 py-8 text-center text-slate-400 font-mono text-xs">
-            No videos matching "{search}"
+            ไม่พบคลิปวิดีโอที่ตรงกับ "{search}"
           </div>
         )}
       </div>

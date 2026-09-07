@@ -30,14 +30,14 @@ export default function TeamBattleBoard({
       <div className="flex items-center justify-between mb-3 px-0.5">
         <div className="flex items-center gap-2">
           <h2 className="text-sm font-semibold font-mono tracking-tight text-slate-200">
-            Team Members
+            สมาชิกในทีม
           </h2>
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-800/80 text-slate-400 border border-slate-700/60">
-            3 Active
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-900 text-slate-400 border border-slate-800">
+            3 คน
           </span>
         </div>
         <span className="text-xs font-mono text-slate-400">
-          Tracking Day {activeDay}
+          ติดตามวันที่ {activeDay}
         </span>
       </div>
 
@@ -55,9 +55,9 @@ export default function TeamBattleBoard({
           return (
             <div 
               key={key}
-              className={`relative flex flex-col justify-between p-4 rounded-2xl bg-slate-900/50 backdrop-blur-sm border transition-all duration-200 hover:border-slate-700/80 hover:bg-slate-900/70 shadow-sm ${
+              className={`relative flex flex-col justify-between p-4 rounded-2xl bg-slate-900/60 backdrop-blur-sm border transition-all duration-200 hover:border-slate-700/80 shadow-sm ${
                 isQuestDone 
-                  ? 'border-emerald-500/30 ring-1 ring-emerald-500/20' 
+                  ? 'border-emerald-500/40 ring-1 ring-emerald-500/20' 
                   : 'border-slate-800/80'
               }`}
             >
@@ -73,12 +73,12 @@ export default function TeamBattleBoard({
                         <span className="font-semibold text-slate-100 font-mono text-sm tracking-tight">{key.toLowerCase()}</span>
                         {key === 'GUY' && (
                           <span className="text-[10px] font-mono px-1.5 py-0.2 rounded-md bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
-                            lead
+                            หัวหน้าทีม
                           </span>
                         )}
                       </div>
                       <span className="text-[11px] text-slate-400 font-mono block">
-                        /{key}
+                        โฟลเดอร์ /{key}
                       </span>
                     </div>
                   </div>
@@ -86,37 +86,37 @@ export default function TeamBattleBoard({
                   {/* Streak Pill */}
                   <div className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 font-mono text-xs font-medium">
                     <Flame className="w-3 h-3 text-amber-400" />
-                    <span>{m.streak || 0}d</span>
+                    <span>{m.streak || 0} วันติด</span>
                   </div>
                 </div>
 
                 {/* Day Status Row */}
-                <div className="mt-3.5 flex items-center justify-between px-3 py-1.5 rounded-xl bg-slate-950/60 border border-slate-800/80 text-xs font-mono">
-                  <span className="text-slate-400">Day {activeDay}</span>
+                <div className="mt-3.5 flex items-center justify-between px-3 py-1.5 rounded-xl bg-slate-950/70 border border-slate-800/80 text-xs font-mono">
+                  <span className="text-slate-400">วันที่ {activeDay}</span>
                   {isQuestDone ? (
                     <span className="inline-flex items-center gap-1 text-emerald-400 font-medium text-xs">
                       <Check className="w-3.5 h-3.5" />
-                      <span>Completed</span>
+                      <span>ส่งงานแล้ว</span>
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-1 text-slate-400 text-xs">
-                      <Clock className="w-3.5 h-3.5 text-slate-400" />
-                      <span>Pending</span>
+                      <Clock className="w-3.5 h-3.5 text-slate-500" />
+                      <span>ยังไม่ส่ง</span>
                     </span>
                   )}
                 </div>
 
                 {/* Progress Indicators */}
                 <div className="grid grid-cols-2 gap-2 mt-2.5 text-xs font-mono">
-                  <div className="px-3 py-2 rounded-xl bg-slate-950/40 border border-slate-800/60">
-                    <span className="text-slate-400 block text-[10px]">Videos</span>
+                  <div className="px-3 py-2 rounded-xl bg-slate-950/50 border border-slate-800/70">
+                    <span className="text-slate-400 block text-[10px]">ดูคลิปแล้ว</span>
                     <div className="flex items-baseline gap-1 mt-0.5">
                       <span className="text-sm font-semibold text-slate-100">{videosDoneCount}</span>
-                      <span className="text-[10px] text-slate-400">/ 30</span>
+                      <span className="text-[10px] text-slate-400">/ 161</span>
                     </div>
                   </div>
-                  <div className="px-3 py-2 rounded-xl bg-slate-950/40 border border-slate-800/60">
-                    <span className="text-slate-400 block text-[10px]">Tasks</span>
+                  <div className="px-3 py-2 rounded-xl bg-slate-950/50 border border-slate-800/70">
+                    <span className="text-slate-400 block text-[10px]">ส่งโจทย์</span>
                     <div className="flex items-baseline gap-1 mt-0.5">
                       <span className="text-sm font-semibold text-slate-100">{questsDoneCount}</span>
                       <span className="text-[10px] text-slate-400">/ 20</span>
@@ -129,19 +129,19 @@ export default function TeamBattleBoard({
               <div className="mt-3.5 pt-3 border-t border-slate-800/70">
                 <div className="flex items-center justify-between text-xs text-slate-400 font-mono mb-2">
                   <span className="flex items-center gap-1.5">
-                    <Code2 className="w-3.5 h-3.5 text-slate-400" />
-                    <span>Files in /{key}</span>
+                    <Code2 className="w-3.5 h-3.5 text-indigo-400" />
+                    <span>ไฟล์ใน /{key}</span>
                   </span>
-                  <span className="text-slate-400">{files.length}</span>
+                  <span className="text-slate-400 text-xs">{files.length} ไฟล์</span>
                 </div>
 
                 {files.length > 0 ? (
                   <div className="space-y-1.5">
-                    {files.slice(0, 2).map((file, idx) => (
+                    {files.slice(0, 3).map((file, idx) => (
                       <button
                         key={idx}
                         onClick={() => onViewCode(key, file)}
-                        className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-slate-950/50 hover:bg-slate-850 border border-slate-800/80 hover:border-slate-700 text-left transition group text-xs font-mono"
+                        className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-slate-950/60 hover:bg-slate-850 border border-slate-800/80 hover:border-slate-700 text-left transition group text-xs font-mono"
                       >
                         <span className="text-slate-300 group-hover:text-white truncate text-xs">
                           {file.name}
@@ -151,8 +151,8 @@ export default function TeamBattleBoard({
                     ))}
                   </div>
                 ) : (
-                  <p className="text-xs text-slate-400 italic py-1 font-mono">
-                    No .cpp files committed yet
+                  <p className="text-xs text-slate-500 italic py-1 font-mono">
+                    ยังไม่มีไฟล์ .cpp ที่ push ขึ้น GitHub
                   </p>
                 )}
 

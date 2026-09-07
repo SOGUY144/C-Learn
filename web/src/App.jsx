@@ -93,7 +93,9 @@ export default function App() {
       const next = toggleVideoInState(prev, memberId, videoId);
       const isWatchedNow = next.members[memberId]?.completedVideos?.[videoId];
       if (isWatchedNow) {
-        showToast(`${memberId}: video marked as watched`);
+        showToast(`${memberId}: ดูคลิปเสร็จแล้ว`);
+      } else {
+        showToast(`${memberId}: ยกเลิกการติ๊กคลิป`);
       }
       return next;
     });
@@ -104,7 +106,9 @@ export default function App() {
       const next = toggleQuestInState(prev, memberId, dayNum);
       const isCompleted = next.members[memberId]?.completedQuests?.[dayNum];
       if (isCompleted) {
-        showToast(`${memberId}: Day ${dayNum} completed`);
+        showToast(`${memberId}: บันทึกส่งงานวันที่ ${dayNum} เรียบร้อย`);
+      } else {
+        showToast(`${memberId}: ยกเลิกสถานะส่งงานวันที่ ${dayNum}`);
       }
       return next;
     });
@@ -113,7 +117,7 @@ export default function App() {
   async function handleSendDiscord() {
     const webhookUrl = state.settings?.discordWebhook;
     if (!webhookUrl) {
-      showToast('Configure Discord Webhook URL in Settings first', 'error');
+      showToast('กรุณาตั้งค่า Discord Webhook URL ในหน้าต่างตั้งค่าก่อน', 'error');
       setIsSettingsOpen(true);
       return;
     }
@@ -122,9 +126,9 @@ export default function App() {
     try {
       const payload = buildDiscordReportPayload(state, gitData, activeDay);
       await sendDiscordWebhook(webhookUrl, payload);
-      showToast('Discord report sent');
+      showToast('ส่งรายงานความคืบหน้าเข้า Discord สำเร็จ');
     } catch (err) {
-      showToast(`Failed to send report: ${err.message}`, 'error');
+      showToast(`ไม่สามารถส่งรายงานได้: ${err.message}`, 'error');
     } finally {
       setIsSendingDiscord(false);
     }
@@ -138,31 +142,31 @@ export default function App() {
         ...newSettings
       }
     }));
-    showToast('Settings saved');
+    showToast('บันทึกการตั้งค่าเรียบร้อย');
   }
 
   function handleResetData() {
-    if (window.confirm('Reset all progress data?')) {
+    if (window.confirm('คุณต้องการรีเซ็ตข้อมูลความคืบหน้าทั้งหมดหรือไม่?')) {
       const resetState = {
         members: JSON.parse(JSON.stringify(INITIAL_MEMBERS)),
         settings: state.settings
       };
       updateState(resetState);
       setIsSettingsOpen(false);
-      showToast('Data reset complete');
+      showToast('รีเซ็ตข้อมูลทั้งหมดเรียบร้อย');
     }
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col font-sans selection:bg-zinc-800">
+    <div className="min-h-screen bg-[#080c14] text-slate-100 flex flex-col font-sans selection:bg-indigo-500/30">
       
       {/* Toast Notification Banner */}
       {toast && (
         <div className="fixed bottom-4 right-4 z-50 animate-in slide-in-from-bottom duration-200">
-          <div className={`flex items-center gap-2 px-3 py-2 rounded-lg shadow-xl border text-xs font-mono ${
+          <div className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl shadow-xl border text-xs font-mono backdrop-blur-md ${
             toast.type === 'error'
-              ? 'bg-zinc-900 border-rose-800 text-rose-300'
-              : 'bg-zinc-900 border-zinc-700 text-zinc-200'
+              ? 'bg-slate-900/90 border-rose-800 text-rose-300'
+              : 'bg-slate-900/90 border-slate-700 text-slate-200'
           }`}>
             {toast.type === 'error' ? (
               <AlertCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
@@ -200,7 +204,7 @@ export default function App() {
               }`}
             >
               <Calendar className="w-3.5 h-3.5" />
-              <span>Roadmap</span>
+              <span>ตารางฝึกซ้อม 20 วัน</span>
             </button>
             <button
               onClick={() => setActiveTab('catalog')}
@@ -211,7 +215,7 @@ export default function App() {
               }`}
             >
               <Layers className="w-3.5 h-3.5" />
-              <span>Videos</span>
+              <span>คลังวิดีโอ (161 คลิป)</span>
             </button>
           </div>
 
@@ -220,20 +224,20 @@ export default function App() {
             <button
               onClick={syncGitHubData}
               disabled={isSyncingGit}
-              title="Refresh files from GitHub"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition disabled:opacity-50"
+              title="รีเฟรชไฟล์ล่าสุดจาก GitHub"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-slate-800 text-slate-300 hover:text-white transition disabled:opacity-50"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isSyncingGit ? 'animate-spin text-indigo-400' : ''}`} />
-              <span className="hidden sm:inline">Sync Git</span>
+              <span className="hidden sm:inline">ซิงค์ Git</span>
             </button>
             <a
               href={`https://github.com/${REPO_OWNER}/${REPO_NAME}`}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-slate-800 text-slate-300 hover:text-white transition"
             >
               <Github className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">GitHub</span>
+              <span className="hidden sm:inline">GitHub Repo</span>
             </a>
           </div>
         </div>
@@ -265,8 +269,8 @@ export default function App() {
       </main>
 
       {/* Clean Developer Footer */}
-      <footer className="w-full border-t border-zinc-800/80 bg-zinc-950 py-4 text-center text-xs text-zinc-400 font-mono">
-        <p>C-Learn &bull; Contest Tracking &bull; CEDT 2110-104 & 2110328</p>
+      <footer className="w-full border-t border-slate-800/80 bg-[#06090e] py-4 text-center text-xs text-slate-500 font-mono">
+        <p>C-Learn &bull; ระบบติดตามการฝึกซ้อมแข่ง C++ &bull; CEDT 2110-104 & 2110-328 &bull; เป้าหมาย 27 ก.ย.</p>
       </footer>
 
       {/* Code Inspector Modal */}
