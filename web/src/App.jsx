@@ -190,27 +190,27 @@ export default function App() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
           
           {/* Tab Switcher */}
-          <div className="inline-flex p-1 rounded-lg bg-zinc-900 border border-zinc-800 text-xs font-mono">
+          <div className="inline-flex p-1 rounded-xl bg-slate-900/80 border border-slate-800 text-xs font-mono backdrop-blur-sm">
             <button
               onClick={() => setActiveTab('roadmap')}
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-md transition ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition ${
                 activeTab === 'roadmap'
-                  ? 'bg-zinc-800 text-zinc-100 font-semibold'
-                  : 'text-zinc-400 hover:text-zinc-200'
+                  ? 'bg-indigo-600 text-white font-medium shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              <Calendar className="w-3.5 h-3.5 text-zinc-400" />
+              <Calendar className="w-3.5 h-3.5" />
               <span>Roadmap</span>
             </button>
             <button
               onClick={() => setActiveTab('catalog')}
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-md transition ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition ${
                 activeTab === 'catalog'
-                  ? 'bg-zinc-800 text-zinc-100 font-semibold'
-                  : 'text-zinc-400 hover:text-zinc-200'
+                  ? 'bg-indigo-600 text-white font-medium shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              <Layers className="w-3.5 h-3.5 text-zinc-400" />
+              <Layers className="w-3.5 h-3.5" />
               <span>Videos</span>
             </button>
           </div>
@@ -221,16 +221,16 @@ export default function App() {
               onClick={syncGitHubData}
               disabled={isSyncingGit}
               title="Refresh files from GitHub"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-400 hover:text-zinc-200 transition disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition disabled:opacity-50"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isSyncingGit ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-3.5 h-3.5 ${isSyncingGit ? 'animate-spin text-indigo-400' : ''}`} />
               <span className="hidden sm:inline">Sync Git</span>
             </button>
             <a
               href={`https://github.com/${REPO_OWNER}/${REPO_NAME}`}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-400 hover:text-zinc-200 transition"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition"
             >
               <Github className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">GitHub</span>

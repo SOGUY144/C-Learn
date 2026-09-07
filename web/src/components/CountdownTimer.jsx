@@ -36,24 +36,32 @@ export default function CountdownTimer({ targetDate = '2026-09-27T09:00:00' }) {
 
   if (timeLeft.isPassed) {
     return (
-      <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-700 text-zinc-300 font-mono text-xs">
-        <Clock className="w-3.5 h-3.5 text-zinc-400" />
-        <span>Contest in progress</span>
+      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-xs">
+        <Clock className="w-3.5 h-3.5" />
+        <span>Contest Started</span>
       </div>
     );
   }
 
+  const items = [
+    { value: timeLeft.days, label: 'd' },
+    { value: String(timeLeft.hours).padStart(2, '0'), label: 'h' },
+    { value: String(timeLeft.minutes).padStart(2, '0'), label: 'm' },
+    { value: String(timeLeft.seconds).padStart(2, '0'), label: 's' }
+  ];
+
   return (
-    <div className="flex items-center gap-2 bg-zinc-900/90 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs font-mono text-zinc-300">
-      <Clock className="w-3.5 h-3.5 text-zinc-400" />
-      <span className="text-zinc-400">T-</span>
-      <span className="font-semibold text-zinc-100">{timeLeft.days}d</span>
-      <span className="text-zinc-400">:</span>
-      <span className="font-semibold text-zinc-100">{String(timeLeft.hours).padStart(2, '0')}h</span>
-      <span className="text-zinc-400">:</span>
-      <span className="font-semibold text-zinc-100">{String(timeLeft.minutes).padStart(2, '0')}m</span>
-      <span className="text-zinc-400">:</span>
-      <span className="font-semibold text-zinc-100">{String(timeLeft.seconds).padStart(2, '0')}s</span>
+    <div className="flex items-center gap-1 bg-slate-900/80 border border-slate-800/80 rounded-xl px-2.5 py-1 text-xs font-mono backdrop-blur-sm">
+      <Clock className="w-3.5 h-3.5 text-indigo-400 mr-1 shrink-0" />
+      <div className="flex items-center gap-1 text-slate-300">
+        {items.map((item, idx) => (
+          <React.Fragment key={item.label}>
+            <span className="font-semibold text-slate-100">{item.value}</span>
+            <span className="text-[10px] text-slate-400 mr-0.5">{item.label}</span>
+            {idx < items.length - 1 && <span className="text-slate-600">:</span>}
+          </React.Fragment>
+        ))}
+      </div>
     </div>
   );
 }
