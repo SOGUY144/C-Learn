@@ -37,10 +37,10 @@ export default function DailyRoadmap({
       {/* Section Title */}
       <div className="flex items-center justify-between gap-2 mb-3 px-0.5">
         <div className="flex items-center gap-2">
-          <h2 className="text-sm font-semibold font-mono tracking-tight text-slate-200">
+          <h2 className="text-sm font-semibold tracking-tight text-slate-200">
             ตารางการฝึกซ้อม 20 วัน
           </h2>
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-900 text-slate-400 border border-slate-800">
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-900 text-slate-400 border border-slate-800">
             20 วันสู่สนามแข่ง
           </span>
         </div>
@@ -119,7 +119,7 @@ export default function DailyRoadmap({
               {currentDayData.phase}
             </span>
           </div>
-          <h3 className="text-lg font-semibold font-mono text-white tracking-tight">
+          <h3 className="text-lg font-semibold text-white tracking-tight">
             วันที่ {currentDayData.day}: {currentDayData.title}
           </h3>
           <p className="text-xs sm:text-sm text-slate-400 mt-1 leading-relaxed">
@@ -164,7 +164,7 @@ export default function DailyRoadmap({
                   </div>
 
                   {/* Member Checks */}
-                  <div className="mt-3 pt-2.5 border-t border-white/[0.06] flex items-center gap-2.5 text-xs font-mono">
+                  <div className="mt-3 pt-2.5 border-t border-white/[0.06] flex items-center gap-2.5 text-xs">
                     <span className="text-slate-400 text-[11px]">บันทึกการดู:</span>
                     {memberKeys.map(k => {
                       const isWatched = !!members[k]?.completedVideos?.[vid.id];
@@ -174,7 +174,7 @@ export default function DailyRoadmap({
                           onClick={() => onToggleVideo(k, vid.id)}
                           className={`flex items-center gap-1 px-2 py-0.5 rounded-lg border text-xs transition ${
                             isWatched 
-                              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]' 
+                              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] font-medium' 
                               : 'bg-black/30 border-white/[0.06] text-slate-400 hover:border-white/[0.14] hover:text-slate-200'
                           }`}
                         >
@@ -202,7 +202,7 @@ export default function DailyRoadmap({
                   <div className="p-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
                     <Code2 className="w-4 h-4" />
                   </div>
-                  <span className="text-xs font-mono font-semibold text-slate-200 tracking-tight">
+                  <span className="text-xs font-semibold text-slate-200 tracking-tight">
                     โจทย์ฝึกเขียนโค้ดประจำวัน
                   </span>
                 </div>

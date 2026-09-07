@@ -10,7 +10,7 @@ body {
   margin: 0;
   background-color: #080c14;
   color: #f1f5f9;
-  font-family: 'Inter', 'Noto Sans Thai', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'IBM Plex Sans Thai', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
   background-image: 
     radial-gradient(ellipse 80% 40% at 50% -15%, rgba(99, 102, 241, 0.18), transparent 70%),

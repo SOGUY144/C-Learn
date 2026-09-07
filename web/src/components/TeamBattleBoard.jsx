@@ -29,10 +29,10 @@ export default function TeamBattleBoard({
     <section className="my-5">
       <div className="flex items-center justify-between mb-3 px-0.5">
         <div className="flex items-center gap-2">
-          <h2 className="text-sm font-semibold font-mono tracking-tight text-slate-200">
+          <h2 className="text-sm font-semibold tracking-tight text-slate-200">
             สถานะสมาชิกในทีม
           </h2>
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.04] text-slate-400 border border-white/[0.08]">
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.04] text-slate-400 border border-white/[0.08]">
             3 คน
           </span>
         </div>

@@ -39,7 +39,7 @@ export default function VideoCatalog({ state, onToggleVideo }) {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-white/[0.06]">
         <div>
-          <h2 className="text-sm font-semibold font-mono tracking-tight text-slate-200">
+          <h2 className="text-sm font-semibold tracking-tight text-slate-200">
             คลังวิดีโอทั้งหมด (161 คลิป)
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
