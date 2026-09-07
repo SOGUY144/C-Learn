@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Clock, Zap } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 export default function CountdownTimer({ targetDate = '2026-09-27T09:00:00' }) {
   const [timeLeft, setTimeLeft] = useState({
@@ -36,41 +36,24 @@ export default function CountdownTimer({ targetDate = '2026-09-27T09:00:00' }) {
 
   if (timeLeft.isPassed) {
     return (
-      <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyber-rose/20 border border-cyber-rose/50 text-cyber-rose font-mono font-bold animate-pulse text-sm">
-        <Zap className="w-4 h-4" />
-        <span>🏁 วันแข่งขันมาถึงแล้ว! สู้ให้เต็มที่!</span>
+      <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-700 text-zinc-300 font-mono text-xs">
+        <Clock className="w-3.5 h-3.5 text-zinc-400" />
+        <span>Contest in progress</span>
       </div>
     );
   }
 
-  const units = [
-    { label: 'วัน', val: timeLeft.days },
-    { label: 'ชม.', val: String(timeLeft.hours).padStart(2, '0') },
-    { label: 'นาที', val: String(timeLeft.minutes).padStart(2, '0') },
-    { label: 'วินาที', val: String(timeLeft.seconds).padStart(2, '0') },
-  ];
-
   return (
-    <div className="flex items-center gap-2">
-      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-dark-900/80 border border-slate-800 text-xs text-slate-400 font-mono">
-        <Clock className="w-3.5 h-3.5 text-cyan-400" />
-        <span>เหลือเวลา</span>
-      </div>
-      <div className="flex items-center gap-1.5 font-mono">
-        {units.map((u, i) => (
-          <React.Fragment key={u.label}>
-            <div className="flex flex-col items-center justify-center min-w-[40px] px-2 py-1 rounded-lg bg-dark-900 border border-cyan-500/30 shadow-[0_0_15px_-3px_rgba(0,242,254,0.15)]">
-              <span className="text-sm sm:text-base font-bold text-cyan-300 leading-none">
-                {u.val}
-              </span>
-              <span className="text-[10px] text-slate-400 mt-0.5 leading-none">{u.label}</span>
-            </div>
-            {i < units.length - 1 && (
-              <span className="text-cyan-400 font-bold text-xs">:</span>
-            )}
-          </React.Fragment>
-        ))}
-      </div>
+    <div className="flex items-center gap-2 bg-zinc-900/90 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs font-mono text-zinc-300">
+      <Clock className="w-3.5 h-3.5 text-zinc-400" />
+      <span className="text-zinc-400">T-</span>
+      <span className="font-semibold text-zinc-100">{timeLeft.days}d</span>
+      <span className="text-zinc-400">:</span>
+      <span className="font-semibold text-zinc-100">{String(timeLeft.hours).padStart(2, '0')}h</span>
+      <span className="text-zinc-400">:</span>
+      <span className="font-semibold text-zinc-100">{String(timeLeft.minutes).padStart(2, '0')}m</span>
+      <span className="text-zinc-400">:</span>
+      <span className="font-semibold text-zinc-100">{String(timeLeft.seconds).padStart(2, '0')}s</span>
     </div>
   );
 }

@@ -14,34 +14,33 @@ export function buildDiscordReportPayload(state, gitData = {}, activeDay = 1) {
 
     const mGit = gitData[key] || { files: [], latestCommit: null };
     const fileCount = mGit.files ? mGit.files.length : 0;
-    const commitText = mGit.latestCommit ? `\n> 📝 ล่าสุด: \`${mGit.latestCommit}\`` : '';
+    const commitText = mGit.latestCommit ? `\n> Commit: \`${mGit.latestCommit}\`` : '';
 
     return {
-      name: `${m.avatar || '👤'} ${m.name} (${key})`,
-      value: `${isDone ? '✅ เคลียร์เควสต์วันนี้แล้ว' : '⚠️ ยังไม่ส่งงานประจำวัน'} | 🔥 ${m.streak || 0} วันต่อเนื่อง\n> 📁 ไฟล์โค้ด: **${fileCount}** ไฟล์${commitText}`,
+      name: `${m.name} (${key})`,
+      value: `Status: ${isDone ? 'Completed' : 'Pending'} | ${m.streak || 0}d streak\n> Files: **${fileCount}**${commitText}`,
       inline: false
     };
   });
 
-  // Determine color: Green if all done, Yellow if partial, Red if none
-  let embedColor = 0xef4444; // Red
+  let embedColor = 0x71717a; // Neutral zinc
   if (completedCount === 3) {
     embedColor = 0x10b981; // Green
   } else if (completedCount > 0) {
-    embedColor = 0xf59e0b; // Yellow / Amber
+    embedColor = 0x3b82f6; // Blue
   }
 
   return {
-    username: "C-Learn Training Bot",
+    username: "C-Learn Tracker",
     avatar_url: "https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/cpp/cpp.png",
     embeds: [
       {
-        title: `🚀 [C-Learn Daily Report] รายงานความคืบหน้า Day ${activeDay}`,
-        description: `📅 **เป้าหมาย:** ซ้อมเข้มข้นนับถอยหลังสู่การแข่งขันเขียนโค้ด C++ วันที่ 27!\nสถานะทีมวันนี้: เคลียร์แล้ว **${completedCount}/3** คน`,
+        title: `[C-Learn] Daily Report - Day ${activeDay}`,
+        description: `Contest Preparation | Team completed: **${completedCount}/3**`,
         color: embedColor,
         fields: fields,
         footer: {
-          text: "C-Learn Arena • รักษาความต่อเนื่องเพื่อชัยชนะ! 🔥"
+          text: "C-Learn Team Tracking"
         },
         timestamp: new Date().toISOString()
       }
@@ -54,7 +53,7 @@ export function buildDiscordReportPayload(state, gitData = {}, activeDay = 1) {
  */
 export async function sendDiscordWebhook(webhookUrl, payload) {
   if (!webhookUrl || !webhookUrl.startsWith('https://discord.com/api/webhooks/')) {
-    throw new Error('กรุณาระบุ Discord Webhook URL ให้ถูกต้อง');
+    throw new Error('Please enter a valid Discord Webhook URL.');
   }
 
   const response = await fetch(webhookUrl, {

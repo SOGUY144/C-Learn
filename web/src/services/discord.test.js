@@ -29,11 +29,12 @@ assert.ok(embed.fields.length >= 3, 'Should have fields for all 3 members');
 // GUY should show completed
 const guyField = embed.fields.find(f => f.name.includes('GUY'));
 assert.ok(guyField, 'Should have GUY field');
-assert.ok(guyField.value.includes('✅') || guyField.value.includes('สำเร็จ'), 'GUY should be marked completed');
-assert.ok(guyField.value.includes('🔥 3'), 'GUY should show 3 days streak');
+assert.ok(guyField.value.includes('Completed'), 'GUY should be marked completed');
+assert.ok(guyField.value.includes('3d streak'), 'GUY should show 3d streak');
 
-// FAN should show pending/in progress
+// FAN should show pending
 const fanField = embed.fields.find(f => f.name.includes('FAN'));
 assert.ok(fanField, 'Should have FAN field');
+assert.ok(fanField.value.includes('Pending'), 'FAN should be marked pending');
 
 console.log('✅ All Discord generator tests passed successfully!');

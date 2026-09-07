@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flame, CheckCircle2, Clock, AlertTriangle, Code2, GitCommit, ChevronRight } from 'lucide-react';
+import { Code2, GitCommit, ChevronRight, Check, Circle } from 'lucide-react';
 
 export default function TeamBattleBoard({ 
   state, 
@@ -11,20 +11,22 @@ export default function TeamBattleBoard({
   const memberKeys = ['GUY', 'FAN', 'HAN'];
 
   return (
-    <section className="my-6">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h2 className="text-lg sm:text-xl font-bold font-mono tracking-tight flex items-center gap-2 text-slate-100">
-            <span className="text-cyber-cyan">#</span> Team Battle Board
+    <section className="my-5">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <h2 className="text-sm font-semibold font-mono uppercase tracking-wider text-zinc-300">
+            Team Members
           </h2>
-          <p className="text-xs text-slate-400">ติดตามวินัยรายวันและความคืบหน้าของสมาชิกทั้ง 3 คน</p>
+          <span className="text-[11px] font-mono px-1.5 py-0.2 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">
+            3
+          </span>
         </div>
-        <span className="text-xs font-mono px-2.5 py-1 rounded-lg bg-dark-900 border border-slate-800 text-slate-400">
-          เควสต์ปัจจุบัน: <b className="text-cyan-400">Day {activeDay}</b>
+        <span className="text-[11px] font-mono text-zinc-400">
+          Tracking Day {activeDay}
         </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
         {memberKeys.map(key => {
           const m = members[key] || { id: key, name: key, streak: 0, completedQuests: {}, completedVideos: {} };
           const isQuestDone = !!m.completedQuests[activeDay];
@@ -33,112 +35,110 @@ export default function TeamBattleBoard({
           const memberGit = gitData[key] || { files: [], latestCommit: null };
           const files = memberGit.files || [];
 
+          const initials = key.slice(0, 2);
+
           return (
             <div 
               key={key}
-              className={`relative flex flex-col justify-between p-5 rounded-2xl bg-dark-900/90 border transition-all duration-300 hover:scale-[1.01] ${
+              className={`flex flex-col justify-between p-4 rounded-xl bg-zinc-900/60 border transition ${
                 isQuestDone 
-                  ? 'border-emerald-500/40 shadow-[0_0_25px_-5px_rgba(16,185,129,0.2)]' 
-                  : 'border-slate-800/90 hover:border-slate-700'
+                  ? 'border-emerald-500/40 bg-zinc-900/90' 
+                  : 'border-zinc-800 hover:border-zinc-700'
               }`}
             >
-              {/* Top Row: Avatar, Name, Streak */}
+              {/* Member Meta */}
               <div>
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-dark-850 border border-slate-750 shadow-inner">
-                      {m.avatar || '👤'}
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-mono font-bold bg-zinc-850 border border-zinc-750 text-zinc-200">
+                      {initials}
                     </div>
                     <div>
                       <div className="flex items-center gap-1.5">
-                        <h3 className="font-bold text-slate-100 font-mono text-base">{m.name}</h3>
+                        <span className="font-semibold text-zinc-100 font-mono text-sm">{key.toLowerCase()}</span>
                         {key === 'GUY' && (
-                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-mono">
-                            LEAD
+                          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">
+                            lead
                           </span>
                         )}
                       </div>
-                      <p className="text-[11px] text-slate-400 font-mono">{m.role || key}</p>
+                      <span className="text-[11px] text-zinc-400 font-mono block">
+                        /{key}
+                      </span>
                     </div>
                   </div>
 
-                  {/* Streak Flame Badge */}
-                  <div className={`flex items-center gap-1 px-2.5 py-1 rounded-xl font-mono text-xs font-bold ${
-                    (m.streak || 0) > 0 
-                      ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/50 text-amber-400 shadow-[0_0_15px_-3px_rgba(245,158,11,0.3)]' 
-                      : 'bg-dark-850 border border-slate-800 text-slate-400'
-                  }`}>
-                    <Flame className={`w-3.5 h-3.5 ${(m.streak || 0) > 0 ? 'text-amber-400 animate-bounce' : 'text-slate-500'}`} />
-                    <span>{m.streak || 0} วัน</span>
+                  {/* Streak Text */}
+                  <div className="text-[11px] font-mono text-zinc-400">
+                    <span className="text-zinc-200 font-semibold">{m.streak || 0}</span>d streak
                   </div>
                 </div>
 
-                {/* Status Badge */}
-                <div className="mt-4">
+                {/* Day Status Pill */}
+                <div className="mt-3 flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-zinc-950/60 border border-zinc-800/80 text-xs font-mono">
+                  <span className="text-zinc-400">Day {activeDay}</span>
                   {isQuestDone ? (
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                      <span>เคลียร์เควสต์ Day {activeDay} แล้ว! 🎉</span>
-                    </div>
+                    <span className="inline-flex items-center gap-1 text-emerald-400 text-[11px]">
+                      <Check className="w-3 h-3" />
+                      <span>Completed</span>
+                    </span>
                   ) : (
-                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-semibold">
-                      <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0 animate-pulse" />
-                      <span>ยังไม่ส่งเควสต์ Day {activeDay}</span>
-                    </div>
+                    <span className="inline-flex items-center gap-1 text-zinc-400 text-[11px]">
+                      <Circle className="w-2.5 h-2.5 fill-zinc-600 text-zinc-600" />
+                      <span>Pending</span>
+                    </span>
                   )}
                 </div>
 
-                {/* Progress Indicators */}
-                <div className="grid grid-cols-2 gap-2 mt-4 text-xs font-mono">
-                  <div className="p-2.5 rounded-xl bg-dark-850 border border-slate-800/80">
-                    <span className="text-[10px] text-slate-400 block">ดูคลิปแล้ว</span>
-                    <span className="text-sm font-bold text-cyan-400">{videosDoneCount}</span>
-                    <span className="text-[10px] text-slate-400"> คลิป</span>
+                {/* Compact Stats */}
+                <div className="grid grid-cols-2 gap-2 mt-2.5 text-[11px] font-mono">
+                  <div className="px-2.5 py-1.5 rounded-lg bg-zinc-950/40 border border-zinc-850">
+                    <span className="text-zinc-400 block text-[10px]">Videos</span>
+                    <span className="text-zinc-200 font-semibold">{videosDoneCount}</span>
+                    <span className="text-zinc-400"> / 30</span>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-dark-850 border border-slate-800/80">
-                    <span className="text-[10px] text-slate-400 block">เควสต์สำเร็จ</span>
-                    <span className="text-sm font-bold text-cyber-emerald">{questsDoneCount}</span>
-                    <span className="text-[10px] text-slate-400"> / 20 วัน</span>
+                  <div className="px-2.5 py-1.5 rounded-lg bg-zinc-950/40 border border-zinc-850">
+                    <span className="text-zinc-400 block text-[10px]">Tasks</span>
+                    <span className="text-zinc-200 font-semibold">{questsDoneCount}</span>
+                    <span className="text-zinc-400"> / 20</span>
                   </div>
                 </div>
               </div>
 
-              {/* Bottom Row: Git Code Files & Commit Info */}
-              <div className="mt-4 pt-4 border-t border-slate-800/80">
-                <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
-                  <span className="flex items-center gap-1.5 font-mono">
-                    <Code2 className="w-3.5 h-3.5 text-cyan-400" />
-                    <span>โฟลเดอร์ <b className="text-slate-300">{key}/</b></span>
+              {/* Git Section */}
+              <div className="mt-3 pt-3 border-t border-zinc-800/60">
+                <div className="flex items-center justify-between text-[11px] text-zinc-400 font-mono mb-1.5">
+                  <span className="flex items-center gap-1">
+                    <Code2 className="w-3 h-3 text-zinc-400" />
+                    <span>Files</span>
                   </span>
-                  <span className="text-[11px] font-mono text-slate-400">
-                    {files.length} ไฟล์
-                  </span>
+                  <span>{files.length}</span>
                 </div>
 
                 {files.length > 0 ? (
-                  <div className="space-y-1.5">
+                  <div className="space-y-1">
                     {files.slice(0, 2).map((file, idx) => (
                       <button
                         key={idx}
                         onClick={() => onViewCode(key, file)}
-                        className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-dark-850 hover:bg-dark-800 border border-slate-800 hover:border-cyan-500/40 text-left transition group text-xs font-mono"
+                        className="w-full flex items-center justify-between px-2 py-1 rounded bg-zinc-950/60 hover:bg-zinc-800/80 border border-zinc-850 text-left transition group text-xs font-mono"
                       >
-                        <span className="text-slate-300 group-hover:text-cyan-300 truncate">
+                        <span className="text-zinc-300 group-hover:text-zinc-100 truncate text-[11px]">
                           {file.name}
                         </span>
-                        <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-400 group-hover:translate-x-0.5 transition shrink-0" />
+                        <ChevronRight className="w-3 h-3 text-zinc-400 group-hover:text-zinc-200 shrink-0" />
                       </button>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-[11px] text-slate-400 italic py-1">
-                    ยังไม่มีไฟล์ .cpp ในโฟลเดอร์นี้
+                  <p className="text-[11px] text-zinc-400 italic py-0.5 font-mono">
+                    No .cpp files found
                   </p>
                 )}
 
                 {memberGit.latestCommit && (
-                  <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-slate-400 truncate font-mono">
-                    <GitCommit className="w-3 h-3 text-cyan-400 shrink-0" />
+                  <div className="mt-2 flex items-center gap-1.5 text-[10px] text-zinc-400 truncate font-mono">
+                    <GitCommit className="w-3 h-3 shrink-0" />
                     <span className="truncate">{memberGit.latestCommit}</span>
                   </div>
                 )}

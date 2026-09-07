@@ -2,15 +2,12 @@ import React from 'react';
 import { 
   CheckSquare, 
   Square, 
-  Youtube, 
   ExternalLink, 
-  FileCode2, 
-  CheckCircle2, 
-  Sparkles,
-  Calendar,
-  ChevronLeft,
+  Code2, 
+  Check, 
+  ChevronLeft, 
   ChevronRight,
-  BookOpen
+  Play
 } from 'lucide-react';
 import { DAYS_ROADMAP } from '../data/curriculum';
 
@@ -25,162 +22,133 @@ export default function DailyRoadmap({
   const members = state.members || {};
   const memberKeys = ['GUY', 'FAN', 'HAN'];
 
-  // Check if current day is complete for each member
-  const isGuyQuestDone = !!members.GUY?.completedQuests?.[activeDay];
-  const isFanQuestDone = !!members.FAN?.completedQuests?.[activeDay];
-  const isHanQuestDone = !!members.HAN?.completedQuests?.[activeDay];
-
-  const allDoneToday = isGuyQuestDone && isFanQuestDone && isHanQuestDone;
-
   return (
-    <section className="my-6">
+    <section className="my-5">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
-        <div>
-          <h2 className="text-lg sm:text-xl font-bold font-mono tracking-tight flex items-center gap-2 text-slate-100">
-            <span className="text-cyber-emerald">#</span> 20-Day Quest Roadmap
+      <div className="flex items-center justify-between gap-2 mb-3">
+        <div className="flex items-center gap-2">
+          <h2 className="text-sm font-semibold font-mono uppercase tracking-wider text-zinc-300">
+            Roadmap
           </h2>
-          <p className="text-xs text-slate-400">ตารางฝึกซ้อมรายวันนับถอยหลังสู่การแข่งวันที่ 27</p>
+          <span className="text-[11px] font-mono px-1.5 py-0.2 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">
+            Day {activeDay} of 20
+          </span>
         </div>
 
-        {/* Day Navigation Prev/Next */}
-        <div className="flex items-center gap-2">
+        {/* Prev / Next */}
+        <div className="flex items-center gap-1.5 font-mono">
           <button
             onClick={() => setActiveDay(prev => Math.max(1, prev - 1))}
             disabled={activeDay <= 1}
-            className="p-1.5 rounded-lg bg-dark-900 border border-slate-800 text-slate-400 hover:text-cyan-400 disabled:opacity-30 disabled:hover:text-slate-400 transition"
+            className="p-1 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200 disabled:opacity-30 transition"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-3.5 h-3.5" />
           </button>
-          <span className="text-xs font-mono px-3 py-1 rounded-lg bg-dark-900 border border-slate-800 text-cyan-300 font-bold">
-            Day {activeDay} / 20
-          </span>
           <button
             onClick={() => setActiveDay(prev => Math.min(20, prev + 1))}
             disabled={activeDay >= 20}
-            className="p-1.5 rounded-lg bg-dark-900 border border-slate-800 text-slate-400 hover:text-cyan-400 disabled:opacity-30 disabled:hover:text-slate-400 transition"
+            className="p-1 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-200 disabled:opacity-30 transition"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
-      {/* Horizontal Day Tabs */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-thin">
+      {/* Day Selector Tabs */}
+      <div className="flex items-center gap-1 overflow-x-auto pb-2 scrollbar-none">
         {DAYS_ROADMAP.map(d => {
           const isActive = d.day === activeDay;
-          const dayQuestsDoneCount = memberKeys.filter(k => !!members[k]?.completedQuests?.[d.day]).length;
-
           return (
             <button
               key={d.day}
               onClick={() => setActiveDay(d.day)}
-              className={`flex flex-col items-center min-w-[58px] px-2 py-2 rounded-xl border text-xs font-mono transition shrink-0 ${
+              className={`flex flex-col items-center min-w-[44px] px-2 py-1.5 rounded-lg border text-xs font-mono transition shrink-0 ${
                 isActive
-                  ? 'bg-cyan-500/10 border-cyan-500/60 text-cyan-300 shadow-[0_0_15px_-3px_rgba(0,242,254,0.25)]'
-                  : 'bg-dark-900 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-300'
+                  ? 'bg-zinc-800 border-zinc-600 text-zinc-100 font-semibold'
+                  : 'bg-zinc-900/60 border-zinc-800/80 text-zinc-400 hover:border-zinc-700 hover:text-zinc-300'
               }`}
             >
-              <span className="text-[10px] text-slate-400">DAY</span>
-              <span className="text-sm font-bold my-0.5">{d.day}</span>
-              <div className="flex gap-0.5 mt-0.5">
-                {memberKeys.map(k => {
-                  const done = !!members[k]?.completedQuests?.[d.day];
-                  return (
-                    <span 
-                      key={k} 
-                      className={`w-1.5 h-1.5 rounded-full ${done ? 'bg-emerald-400' : 'bg-slate-700'}`}
-                    />
-                  );
-                })}
-              </div>
+              <span className="text-[10px] text-zinc-400">D</span>
+              <span className="text-xs">{String(d.day).padStart(2, '0')}</span>
             </button>
           );
         })}
       </div>
 
-      {/* Main Quest Card for Active Day */}
-      <div className="mt-4 p-5 sm:p-6 rounded-2xl bg-dark-900/90 border border-slate-800 shadow-xl">
+      {/* Main Content Box */}
+      <div className="mt-3 p-5 rounded-xl bg-zinc-900/60 border border-zinc-800">
         
-        {/* Phase Badge & Day Title */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-800/80">
-          <div>
-            <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 mb-1.5">
+        {/* Day Meta Header */}
+        <div className="pb-4 border-b border-zinc-800/80">
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400">
               {currentDayData.phase}
             </span>
-            <h3 className="text-lg sm:text-xl font-bold font-mono text-slate-100 flex items-center gap-2">
-              <span className="text-cyan-400">Day {currentDayData.day}:</span> {currentDayData.title}
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-400 mt-1">
-              {currentDayData.description}
-            </p>
           </div>
-
-          {allDoneToday && (
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono text-xs shrink-0 self-start sm:self-center">
-              <Sparkles className="w-4 h-4 text-emerald-400 animate-spin" />
-              <span>ทีมเคลียร์เควสต์วันนี้ครบ 100%!</span>
-            </div>
-          )}
+          <h3 className="text-base font-semibold font-mono text-zinc-100">
+            Day {currentDayData.day}: {currentDayData.title}
+          </h3>
+          <p className="text-xs text-zinc-400 mt-1 font-sans">
+            {currentDayData.description}
+          </p>
         </div>
 
-        {/* 2-Column Grid: Left = Video Checklist, Right = Coding Challenge */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-5">
+        {/* 2-Column: Video list & Challenge */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 mt-4">
           
-          {/* Left Column (Videos): 7 Cols */}
+          {/* Videos List (7 cols) */}
           <div className="lg:col-span-7">
-            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2 mb-3">
-              <Youtube className="w-4 h-4 text-rose-500" />
-              <span>วิดีโอที่ต้องดูประจำวัน ({currentDayData.videos.length} คลิป)</span>
-            </h4>
+            <div className="text-xs font-mono text-zinc-400 mb-2.5">
+              Assigned Videos ({currentDayData.videos.length})
+            </div>
 
-            <div className="space-y-2.5">
+            <div className="space-y-2">
               {currentDayData.videos.map((vid, idx) => (
                 <div 
                   key={vid.id || idx}
-                  className="p-3 rounded-xl bg-dark-850/80 border border-slate-800/90 hover:border-slate-700 transition"
+                  className="p-3 rounded-lg bg-zinc-950/60 border border-zinc-850 hover:border-zinc-800 transition"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">
-                          {vid.playlist === 'prog' ? 'CEDT Prog' : 'CEDT DSA'}
+                        <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">
+                          {vid.playlist === 'prog' ? 'Prog' : 'DSA'}
                         </span>
-                        <span className="text-[11px] text-slate-400 font-mono">⏱️ {vid.duration}</span>
+                        <span className="text-[11px] text-zinc-400 font-mono">{vid.duration}</span>
                       </div>
                       <a 
                         href={vid.url} 
                         target="_blank" 
                         rel="noreferrer"
-                        className="text-xs sm:text-sm font-medium text-slate-200 hover:text-cyan-300 transition flex items-center gap-1.5 group"
+                        className="text-xs font-medium text-zinc-200 hover:text-zinc-100 transition flex items-center gap-1.5 group"
                       >
                         <span>{vid.title}</span>
-                        <ExternalLink className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-400 shrink-0" />
+                        <ExternalLink className="w-3 h-3 text-zinc-400 group-hover:text-zinc-300 shrink-0" />
                       </a>
                     </div>
                   </div>
 
-                  {/* Multi-member Checkboxes */}
-                  <div className="mt-3 pt-2 border-t border-slate-800/60 flex items-center gap-4 text-xs font-mono">
-                    <span className="text-[10px] text-slate-400">เช็คชื่อดูคลิป:</span>
+                  {/* Member Checks */}
+                  <div className="mt-2.5 pt-2 border-t border-zinc-850 flex items-center gap-3 text-xs font-mono">
+                    <span className="text-[11px] text-zinc-400">Watched:</span>
                     {memberKeys.map(k => {
                       const isWatched = !!members[k]?.completedVideos?.[vid.id];
                       return (
                         <button
                           key={k}
                           onClick={() => onToggleVideo(k, vid.id)}
-                          className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border transition ${
+                          className={`flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] border transition ${
                             isWatched 
-                              ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
-                              : 'bg-dark-900 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-300'
+                              ? 'bg-zinc-800 border-zinc-600 text-zinc-100' 
+                              : 'bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:text-zinc-300'
                           }`}
                         >
                           {isWatched ? (
-                            <CheckSquare className="w-3.5 h-3.5 text-emerald-400" />
+                            <CheckSquare className="w-3 h-3 text-zinc-300" />
                           ) : (
-                            <Square className="w-3.5 h-3.5 text-slate-500" />
+                            <Square className="w-3 h-3 text-zinc-600" />
                           )}
-                          <span className="font-bold">{k}</span>
+                          <span>{k.toLowerCase()}</span>
                         </button>
                       );
                     })}
@@ -190,38 +158,36 @@ export default function DailyRoadmap({
             </div>
           </div>
 
-          {/* Right Column (Coding Challenge & Submit): 5 Cols */}
-          <div className="lg:col-span-5 flex flex-col justify-between p-4 rounded-xl bg-gradient-to-b from-dark-850 to-dark-900 border border-cyan-500/20 shadow-inner">
+          {/* Practice Problem (5 cols) */}
+          <div className="lg:col-span-5 flex flex-col justify-between p-4 rounded-lg bg-zinc-950/60 border border-zinc-850">
             <div>
               <div className="flex items-center justify-between gap-2 mb-2">
-                <span className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-cyan-400">
-                  <FileCode2 className="w-4 h-4" />
-                  <span>โจทย์โค้ดประจำวัน</span>
+                <span className="text-xs font-mono uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                  <Code2 className="w-3.5 h-3.5" />
+                  <span>Practice Problem</span>
                 </span>
-                <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-cyan-500/10 text-cyan-300 border border-cyan-500/30">
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-300">
                   {currentDayData.challenge.filename}
                 </span>
               </div>
 
-              <h4 className="font-bold font-mono text-sm text-slate-100 mb-2">
+              <h4 className="font-semibold font-mono text-xs text-zinc-200 mb-1.5">
                 {currentDayData.challenge.title}
               </h4>
-              <p className="text-xs text-slate-300 leading-relaxed bg-dark-950/60 p-3 rounded-xl border border-slate-800/80 mb-4">
+              <p className="text-xs text-zinc-400 leading-relaxed bg-zinc-900/40 p-2.5 rounded border border-zinc-850 mb-3">
                 {currentDayData.challenge.description}
               </p>
 
-              <div className="text-[11px] text-slate-400 space-y-1 mb-4">
-                <p>💡 <b>วิธีส่งงาน:</b></p>
-                <p>1. เขียนโค้ดเซฟลงโฟลเดอร์ของตัวเอง เช่น <code>FAN/{currentDayData.challenge.filename}</code></p>
-                <p>2. Commit & Push ขึ้น GitHub Repo <code>SOGUY144/C-Learn</code></p>
-                <p>3. กดปุ่มยืนยันเควสต์ประจำวันด้านล่างนี้</p>
+              <div className="text-[11px] text-zinc-400 font-mono space-y-1 mb-4">
+                <p>Target file: <code>{members.GUY?.id || 'NAME'}/{currentDayData.challenge.filename}</code></p>
+                <p>Commit to repo when finished, then toggle status below.</p>
               </div>
             </div>
 
-            {/* Team Quest Completion Toggles */}
-            <div className="pt-3 border-t border-slate-800/80">
-              <span className="text-xs font-mono text-slate-400 block mb-2">
-                สถานะเควสต์ Day {activeDay} ของแต่ละคน:
+            {/* Member Complete Toggles */}
+            <div className="pt-3 border-t border-zinc-850">
+              <span className="text-[11px] font-mono text-zinc-400 block mb-2">
+                Day {activeDay} submission status:
               </span>
               <div className="grid grid-cols-3 gap-2 font-mono">
                 {memberKeys.map(k => {
@@ -230,21 +196,16 @@ export default function DailyRoadmap({
                     <button
                       key={k}
                       onClick={() => onToggleQuest(k, activeDay)}
-                      className={`flex flex-col items-center justify-center p-2.5 rounded-xl border transition ${
+                      className={`flex flex-col items-center justify-center p-2 rounded-lg border text-xs transition ${
                         isDone
-                          ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-[0_0_15px_-4px_rgba(16,185,129,0.3)]'
-                          : 'bg-dark-900 hover:bg-dark-850 border-slate-800 text-slate-400 hover:border-slate-700'
+                          ? 'bg-zinc-800 border-zinc-600 text-zinc-100'
+                          : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-300'
                       }`}
                     >
-                      <span className="text-xs font-bold mb-1">{k}</span>
-                      {isDone ? (
-                        <div className="flex items-center gap-1 text-[10px] text-emerald-400 font-bold">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
-                          <span>เสร็จแล้ว</span>
-                        </div>
-                      ) : (
-                        <span className="text-[10px] text-slate-400">ยังไม่ส่ง</span>
-                      )}
+                      <span className="font-semibold text-xs mb-0.5">{k.toLowerCase()}</span>
+                      <span className="text-[10px] text-zinc-400">
+                        {isDone ? 'Completed' : 'Pending'}
+                      </span>
                     </button>
                   );
                 })}

@@ -377,8 +377,8 @@ export const INITIAL_MEMBERS = {
   GUY: {
     id: "GUY",
     name: "GUY",
-    role: "Team Captain",
-    avatar: "👑",
+    handle: "soguy144",
+    role: "Lead",
     streak: 0,
     lastActiveDate: null,
     completedVideos: {},
@@ -388,8 +388,8 @@ export const INITIAL_MEMBERS = {
   FAN: {
     id: "FAN",
     name: "FAN",
-    role: "Algorithm Specialist",
-    avatar: "⚡",
+    handle: "fan",
+    role: "Member",
     streak: 0,
     lastActiveDate: null,
     completedVideos: {},
@@ -399,8 +399,8 @@ export const INITIAL_MEMBERS = {
   HAN: {
     id: "HAN",
     name: "HAN",
-    role: "Speed Coder",
-    avatar: "🎯",
+    handle: "han",
+    role: "Member",
     streak: 0,
     lastActiveDate: null,
     completedVideos: {},
