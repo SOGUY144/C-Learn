@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   CheckSquare, 
   Square, 
@@ -6,7 +6,10 @@ import {
   Code2, 
   ChevronLeft, 
   ChevronRight,
-  FileCode
+  FileCode,
+  Copy,
+  Check,
+  Lightbulb
 } from 'lucide-react';
 import { DAYS_ROADMAP } from '../data/curriculum';
 
@@ -20,6 +23,14 @@ export default function DailyRoadmap({
   const currentDayData = DAYS_ROADMAP.find(d => d.day === activeDay) || DAYS_ROADMAP[0];
   const members = state.members || {};
   const memberKeys = ['GUY', 'FAN', 'HAN'];
+  const [copied, setCopied] = useState(false);
+
+  function handleCopyInput(text) {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
 
   return (
     <section className="my-6">
@@ -119,8 +130,8 @@ export default function DailyRoadmap({
         {/* 2-Column Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 mt-5">
           
-          {/* Left Column (Videos): 6 Cols */}
-          <div className="lg:col-span-6">
+          {/* Left Column (Videos): 5 Cols */}
+          <div className="lg:col-span-5">
             <div className="flex items-center justify-between mb-3 text-xs font-mono text-slate-400">
               <span className="font-semibold text-slate-300">วิดีโอที่ต้องดูประจำวัน</span>
               <span>{currentDayData.videos.length} คลิป</span>
@@ -182,79 +193,112 @@ export default function DailyRoadmap({
             </div>
           </div>
 
-          {/* Right Column (Practice Challenge): 6 Cols */}
-          <div className="lg:col-span-6 flex flex-col justify-between p-4 sm:p-5 rounded-xl bg-slate-950/60 border border-slate-800/90">
+          {/* Right Column (Practice Challenge): 7 Cols */}
+          <div className="lg:col-span-7 flex flex-col justify-between p-5 rounded-2xl bg-slate-950/60 border border-slate-800/90 shadow-sm">
             <div>
-              <div className="flex items-center justify-between gap-2 mb-2.5">
-                <span className="text-xs font-mono font-medium text-slate-400 flex items-center gap-1.5">
-                  <Code2 className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>โจทย์ฝึกเขียนโค้ดประจำวัน</span>
-                </span>
-                <span className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+              {/* Problem Header */}
+              <div className="flex items-center justify-between gap-2 mb-3 pb-3 border-b border-slate-800/80">
+                <div className="flex items-center gap-2">
+                  <Code2 className="w-4 h-4 text-indigo-400" />
+                  <span className="text-xs font-mono font-semibold text-slate-200">
+                    โจทย์ฝึกเขียนโค้ดประจำวัน
+                  </span>
+                </div>
+                <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-md bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
                   {currentDayData.challenge.filename}
                 </span>
               </div>
 
-              <h4 className="font-semibold font-mono text-sm sm:text-base text-slate-100 mb-2">
+              {/* Title & Description */}
+              <h4 className="font-semibold text-base text-slate-100 mb-2">
                 {currentDayData.challenge.title}
               </h4>
-              <p className="text-xs text-slate-300 leading-relaxed bg-slate-900/60 p-3 rounded-xl border border-slate-800/80 mb-3">
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
                 {currentDayData.challenge.description}
               </p>
 
-              {/* I/O Specifications */}
-              <div className="space-y-2 mb-3.5 text-xs font-mono">
+              {/* Specifications: Input / Output */}
+              <div className="space-y-2 mb-4 text-xs font-mono bg-slate-900/40 p-3 rounded-xl border border-slate-800/60">
                 {currentDayData.challenge.input && (
-                  <div className="p-2.5 rounded-lg bg-slate-900/40 border border-slate-800/60">
-                    <span className="text-indigo-300 font-semibold block text-[11px] mb-0.5">รูปแบบ Input:</span>
-                    <span className="text-slate-300 leading-normal">{currentDayData.challenge.input}</span>
+                  <div>
+                    <span className="text-slate-400 font-semibold block text-[11px]">ข้อมูลนำเข้า (Input):</span>
+                    <span className="text-slate-200 block mt-0.5 leading-normal">{currentDayData.challenge.input}</span>
                   </div>
                 )}
                 {currentDayData.challenge.output && (
-                  <div className="p-2.5 rounded-lg bg-slate-900/40 border border-slate-800/60">
-                    <span className="text-indigo-300 font-semibold block text-[11px] mb-0.5">รูปแบบ Output:</span>
-                    <span className="text-slate-300 leading-normal">{currentDayData.challenge.output}</span>
-                  </div>
-                )}
-                {currentDayData.challenge.example && (
-                  <div className="p-2.5 rounded-lg bg-slate-900/40 border border-slate-800/60">
-                    <span className="text-indigo-300 font-semibold block text-[11px] mb-0.5">ตัวอย่างการทำงาน:</span>
-                    <pre className="text-slate-300 text-[11px] font-mono whitespace-pre-wrap">{currentDayData.challenge.example}</pre>
+                  <div className="pt-2 border-t border-slate-800/60">
+                    <span className="text-slate-400 font-semibold block text-[11px]">ข้อมูลส่งออก (Output):</span>
+                    <span className="text-slate-200 block mt-0.5 leading-normal whitespace-pre-line">{currentDayData.challenge.output}</span>
                   </div>
                 )}
               </div>
 
-              {/* Target File Per Member Box */}
-              <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800/80 mb-4 text-xs font-mono">
-                <div className="flex items-center gap-1.5 text-slate-300 font-medium mb-1.5">
-                  <FileCode className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>ตำแหน่งโฟลเดอร์สำหรับส่งงานใน GitHub:</span>
+              {/* Side-by-side Sample Test Cases */}
+              {(currentDayData.challenge.sampleInput || currentDayData.challenge.sampleOutput) && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4 font-mono text-xs">
+                  {/* Sample Input */}
+                  <div className="rounded-xl bg-black/40 border border-slate-800/80 overflow-hidden">
+                    <div className="flex items-center justify-between px-3 py-1.5 bg-slate-900/60 border-b border-slate-800/80 text-[11px]">
+                      <span className="text-slate-400">ตัวอย่าง Input</span>
+                      {currentDayData.challenge.sampleInput && (
+                        <button
+                          onClick={() => handleCopyInput(currentDayData.challenge.sampleInput)}
+                          className="flex items-center gap-1 text-[10px] text-slate-400 hover:text-white transition"
+                          title="คัดลอกตัวอย่าง Input"
+                        >
+                          {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                          <span>{copied ? 'คัดลอกแล้ว' : 'คัดลอก'}</span>
+                        </button>
+                      )}
+                    </div>
+                    <pre className="p-3 text-emerald-300 text-xs whitespace-pre-wrap leading-normal font-mono">
+                      {currentDayData.challenge.sampleInput || '-'}
+                    </pre>
+                  </div>
+
+                  {/* Sample Output */}
+                  <div className="rounded-xl bg-black/40 border border-slate-800/80 overflow-hidden">
+                    <div className="px-3 py-1.5 bg-slate-900/60 border-b border-slate-800/80 text-[11px] text-slate-400">
+                      <span>ตัวอย่าง Output</span>
+                    </div>
+                    <pre className="p-3 text-sky-300 text-xs whitespace-pre-wrap leading-normal font-mono">
+                      {currentDayData.challenge.sampleOutput || '-'}
+                    </pre>
+                  </div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-1 text-[11px]">
-                  <div className="p-1.5 rounded bg-slate-950/80 border border-slate-800/70 text-slate-300">
-                    <span className="text-slate-500 block text-[10px]">GUY:</span>
-                    <code>GUY/{currentDayData.challenge.filename}</code>
-                  </div>
-                  <div className="p-1.5 rounded bg-slate-950/80 border border-slate-800/70 text-slate-300">
-                    <span className="text-slate-500 block text-[10px]">FAN:</span>
-                    <code>FAN/{currentDayData.challenge.filename}</code>
-                  </div>
-                  <div className="p-1.5 rounded bg-slate-950/80 border border-slate-800/70 text-slate-300">
-                    <span className="text-slate-500 block text-[10px]">HAN:</span>
-                    <code>HAN/{currentDayData.challenge.filename}</code>
+              )}
+
+              {/* Hint / Advice Box */}
+              {currentDayData.challenge.hint && (
+                <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-500/5 border border-amber-500/20 text-xs font-mono mb-4 text-amber-200/90 leading-relaxed">
+                  <Lightbulb className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-semibold text-amber-300 block text-[11px] mb-0.5">คำแนะนำ & เทคนิค:</span>
+                    <span>{currentDayData.challenge.hint}</span>
                   </div>
                 </div>
-                <p className="text-[10px] text-slate-500 mt-2">
-                  เมื่อ Commit และ Push โค้ดขึ้น GitHub แล้ว ให้กดบันทึกสถานะส่งงานด้านล่าง
-                </p>
+              )}
+
+              {/* Compact GitHub Target File Strip */}
+              <div className="p-2.5 rounded-xl bg-slate-900/60 border border-slate-800/80 mb-4 text-xs font-mono flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5 text-slate-400 text-[11px]">
+                  <FileCode className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
+                  <span>ส่งโค้ดใน GitHub:</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-[11px] text-slate-300 overflow-x-auto">
+                  <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">GUY/{currentDayData.challenge.filename}</span>
+                  <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">FAN/{currentDayData.challenge.filename}</span>
+                  <span className="px-1.5 py-0.5 rounded bg-slate-950 border border-slate-800">HAN/{currentDayData.challenge.filename}</span>
+                </div>
               </div>
             </div>
 
-            {/* Member Toggles */}
+            {/* Member Submission Status */}
             <div className="pt-3 border-t border-slate-800/80">
-              <span className="text-xs font-mono text-slate-400 block mb-2">
-                สถานะการส่งงานประจำวันที่ {activeDay}:
-              </span>
+              <div className="flex items-center justify-between mb-2 text-xs font-mono">
+                <span className="text-slate-400">สถานะส่งงานประจำวันที่ {activeDay}:</span>
+                <span className="text-[10px] text-slate-500">คลิกเพื่อบันทึกสถานะ</span>
+              </div>
               <div className="grid grid-cols-3 gap-2 font-mono">
                 {memberKeys.map(k => {
                   const isDone = !!members[k]?.completedQuests?.[activeDay];

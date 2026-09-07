@@ -1469,7 +1469,7 @@ export const DAYS_ROADMAP = [
     "day": 1,
     "phase": "ช่วงที่ 1: ปูพื้นฐานและฝึกพิมพ์โค้ด C++ (วันที่ 1–7)",
     "title": "แนะนำ C++, โครงสร้างโปรแกรม และ Fast I/O",
-    "description": "เริ่มต้นทำความคุ้นเคยกับภาษา C++, Header Files, Namespaces และการทำ Fast I/O เพื่อให้รับข้อมูลปริมาณมหาศาลได้ทันเวลา",
+    "description": "เขียนโปรแกรมรับจำนวนเต็มบวก 2 จำนวน A และ B จากนั้นคำนวณและแสดงผลลัพธ์ของผลรวม (A + B), ผลต่าง (A - B), และผลคูณ (A * B) แยกคนละบรรทัด",
     "videos": [
       {
         "id": "prog-01",
@@ -1502,17 +1502,19 @@ export const DAYS_ROADMAP = [
     "challenge": {
       "filename": "01-io.cpp",
       "title": "Fast I/O & เครื่องคิดเลขความเร็วสูง",
-      "description": "เขียนโปรแกรมรับจำนวนเต็มบวก 2 จำนวน (A และ B) จาก stdin คำนวณผลบวก ผลต่าง และผลคูณ แสดงผลลัพธ์แยกบรรทัด โดยต้องเปิดโหมด Fast I/O ด้วย ios_base::sync_with_stdio(false); cin.tie(NULL); และใช้ '\\n' แทน endl เพื่อประสิทธิภาพสูงสุดในการแข่ง",
-      "input": "บรรทัดเดียวประกอบด้วยจำนวนเต็มบวก 2 จำนวน A และ B (1 <= A, B <= 10^9)",
-      "output": "3 บรรทัด: บรรทัดที่ 1 ผลรวม A+B, บรรทัดที่ 2 ผลต่าง A-B, บรรทัดที่ 3 ผลคูณ A*B (ระวัง overflow ให้ใช้ long long)",
-      "example": "Input: 15 4\nOutput:\n19\n11\n60"
+      "description": "เขียนโปรแกรมรับจำนวนเต็มบวก 2 จำนวน A และ B จากมาตรฐานนำเข้า (stdin) แล้วคำนวณหาค่าผลบวก (A + B), ผลต่าง (A - B), และผลคูณ (A * B) โดยแสดงผลลัพธ์แยกคนละบรรทัด",
+      "input": "บรรทัดเดียวประกอบด้วยจำนวนเต็มบวก 2 จำนวน A และ B คั่นด้วยช่องว่าง (1 <= A, B <= 10^9)",
+      "output": "แสดงผลลัพธ์ 3 บรรทัด:\nบรรทัดที่ 1: ค่าของ A + B\nบรรทัดที่ 2: ค่าของ A - B\nบรรทัดที่ 3: ค่าของ A * B",
+      "sampleInput": "15 4",
+      "sampleOutput": "19\n11\n60",
+      "hint": "ข้อนี้ผลคูณ A * B มีโอกาสมีค่าถึง 10^18 ซึ่งเกินขอบเขตของ int (ประมาณ 2*10^9) ดังนั้นตัวแปรสำหรับเก็บผลคูณต้องใช้ชนิด long long และควรใส่ ios_base::sync_with_stdio(false); cin.tie(NULL); พร้อมใช้ '\\n' แทน endl เพื่อความเร็ว"
     }
   },
   {
     "day": 2,
     "phase": "ช่วงที่ 1: ปูพื้นฐานและฝึกพิมพ์โค้ด C++ (วันที่ 1–7)",
     "title": "ตัวแปร, การกำหนดค่า และนิพจน์ทางคณิตศาสตร์",
-    "description": "ทำความเข้าใจชนิดตัวแปร int, long long, double, char และการคำนวณที่ต้องระวัง Integer Overflow ในการแข่งขัน",
+    "description": "รับจำนวนเต็ม 3 จำนวน A, B, C แล้วคำนวณหาค่า (A * B) mod C และ (A + B) mod C โดยป้องกันปัญหา Integer Overflow",
     "videos": [
       {
         "id": "prog-05",
@@ -1545,17 +1547,19 @@ export const DAYS_ROADMAP = [
     "challenge": {
       "filename": "02-variables.cpp",
       "title": "การคำนวณตัวเลขขนาดใหญ่ & Modular Arithmetic",
-      "description": "รับจำนวนเต็ม 3 จำนวน A, B, C โดยที่ตัวเลขอาจมีค่าได้ถึง 10^9 จงคำนวณหาค่า (A * B) mod C และ (A + B) mod C โดยไม่ให้เกิดปัญหานิพจน์ล้นหน่วยความจำ (Integer Overflow) เด็ดขาด",
-      "input": "บรรทัดเดียวประกอบด้วยจำนวนเต็ม 3 จำนวน A, B, C (1 <= A, B <= 10^9, 1 <= C <= 10^9+7)",
-      "output": "2 บรรทัด: บรรทัดแรกคือค่า (A * B) % C, บรรทัดที่สองคือค่า (A + B) % C",
-      "example": "Input: 1000000000 1000000000 1000000007\nOutput:\n49\n999999993"
+      "description": "รับจำนวนเต็มบวก 3 จำนวน A, B, C จงคำนวณหาค่าของ (A * B) mod C และ (A + B) mod C เพื่อฝึกการจัดการกับนิพจน์คณิตศาสตร์ที่ไม่ล้นหน่วยความจำ",
+      "input": "บรรทัดเดียวประกอบด้วยจำนวนเต็มบวก 3 จำนวน A, B, C (1 <= A, B <= 10^9, 1 <= C <= 10^9+7)",
+      "output": "แสดงผลลัพธ์ 2 บรรทัด:\nบรรทัดที่ 1: ค่าของ (A * B) % C\nบรรทัดที่ 2: ค่าของ (A + B) % C",
+      "sampleInput": "1000000000 1000000000 1000000007",
+      "sampleOutput": "49\n999999993",
+      "hint": "ก่อนนำ A มาคูณ B ต้องแปลงตัวแปรเป็น long long ก่อน เช่น 1LL * A * B แล้วค่อย mod ด้วย C มิฉะนั้นผลคูณจะล้น int ก่อนที่จะถูก mod"
     }
   },
   {
     "day": 3,
     "phase": "ช่วงที่ 1: ปูพื้นฐานและฝึกพิมพ์โค้ด C++ (วันที่ 1–7)",
     "title": "การตัดสินใจ, ตรรกะเงื่อนไข และ if-else",
-    "description": "ฝึกการใช้ if, else if, else, ตัวดำเนินการตรรกะ (&&, ||, !) และการคิดเงื่อนไขขอบเขตอย่างรัดกุม",
+    "description": "หาคำตอบของสมการกำลังสอง ax^2 + bx + c = 0 ในระบบจำนวนจริง พร้อมจำแนกกรณี 2 คำตอบ, 1 คำตอบ หรือไม่มีคำตอบจริง",
     "videos": [
       {
         "id": "prog-11",
@@ -1597,17 +1601,19 @@ export const DAYS_ROADMAP = [
     "challenge": {
       "filename": "03-conditions.cpp",
       "title": "สมการกำลังสอง & การวิเคราะห์เงื่อนไข Discriminant",
-      "description": "รับสัมประสิทธิ์ a, b, c ของสมการกำลังสอง ax^2 + bx + c = 0 (โดย a != 0) คำนวณ discriminant D = b^2 - 4ac และแสดงคำตอบของ x ในระบบจำนวนจริง โดยเรียงจากน้อยไปมาก (ทศนิยม 2 ตำแหน่ง) หากไม่มีคำตอบในระบบจำนวนจริงให้พิมพ์ NO REAL ROOTS",
-      "input": "จำนวนทศนิยม 3 ค่า a, b, c แยกด้วยช่องว่าง",
-      "output": "หากมี 2 คำตอบ ให้พิมพ์คำตอบน้อยตามด้วยคำตอบมาก ทศนิยม 2 ตำแหน่ง, หากมี 1 คำตอบ ให้พิมพ์คำตอบเดียว, หากไม่มีคำตอบจริง พิมพ์ NO REAL ROOTS",
-      "example": "Input: 1 -5 6\nOutput: 2.00 3.00"
+      "description": "รับค่าสัมประสิทธิ์ a, b, c ของสมการกำลังสอง ax^2 + bx + c = 0 (โดยที่ a != 0) จงหาคำตอบของสมการในระบบจำนวนจริง โดยวิเคราะห์จากค่า Discriminant D = b^2 - 4ac",
+      "input": "บรรทัดเดียวประกอบด้วยจำนวนจริง 3 จำนวน a, b, c คั่นด้วยช่องว่าง",
+      "output": "- หากมี 2 คำตอบจริง ให้แสดงคำตอบเรียงจากน้อยไปมาก ทศนิยม 2 ตำแหน่ง คั่นด้วยช่องว่าง\n- หากมี 1 คำตอบ ให้แสดงคำตอบเดียว ทศนิยม 2 ตำแหน่ง\n- หากไม่มีคำตอบจริง ให้พิมพ์ 'NO REAL ROOTS'",
+      "sampleInput": "1 -5 6",
+      "sampleOutput": "2.00 3.00",
+      "hint": "ใช้ฟังก์ชัน sqrt() จาก <cmath> และใช้ fixed << setprecision(2) จาก <iomanip> สำหรับจัดฟอร์แมตทศนิยม"
     }
   },
   {
     "day": 4,
     "phase": "ช่วงที่ 1: ปูพื้นฐานและฝึกพิมพ์โค้ด C++ (วันที่ 1–7)",
     "title": "การวนซ้ำ (While, For, Nested Loops)",
-    "description": "เจาะลึก while loop, for loop, nested loops และเทคนิคการพิมพ์ Pattern เพื่อฝึก Logic ให้คล่องแคล่ว",
+    "description": "รับจำนวนเต็มคี่ N แล้วพิมพ์รูปทรงเพชร (Diamond Pattern) ขนาด N x N ด้วยเครื่องหมายดอกจัน (*) และเว้นช่องว่างอย่างแม่นยำ",
     "videos": [
       {
         "id": "prog-16",
@@ -1649,17 +1655,19 @@ export const DAYS_ROADMAP = [
     "challenge": {
       "filename": "04-loops.cpp",
       "title": "พิมพ์ลายเรขาคณิต Diamond Pattern",
-      "description": "รับจำนวนเต็มคี่ N (3 <= N <= 29) แล้วพิมพ์รูปเพชร (Diamond) ขนาด N x N โดยมีเครื่องหมายดอกจัน (*) และเว้นช่องว่างอย่างแม่นยำ พร้อมทั้งนับจำนวนดอกจันทั้งหมดที่ถูกพิมพ์ออกมาระบุในบรรทัดสุดท้าย",
-      "input": "จำนวนเต็มคี่ N หนึ่งตัว",
-      "output": "รูปทรงเพชรตามขนาด N บรรทัด และบรรทัดถัดไปแสดงข้อความ 'Total stars: K'",
-      "example": "Input: 5\nOutput:\n  *\n ***\n*****\n ***\n  *\nTotal stars: 13"
+      "description": "รับจำนวนเต็มคี่ N แล้วพิมพ์รูปเพชร (Diamond) ขนาด N x N บรรทัด และในบรรทัดสุดท้ายให้แสดงจำนวนดอกจันทั้งหมดที่ถูกพิมพ์ออกมา",
+      "input": "จำนวนเต็มคี่ N หนึ่งตัว (3 <= N <= 29)",
+      "output": "พิมพ์รูปเพชร N บรรทัด และบรรทัดถัดไปพิมพ์ 'Total stars: K' (เมื่อ K คือจำนวนดอกจันทั้งหมด)",
+      "sampleInput": "5",
+      "sampleOutput": "  *\n ***\n*****\n ***\n  *\nTotal stars: 13",
+      "hint": "แบ่งการพิมพ์ลูปเป็น 2 ช่วง: ครึ่งบน (รวมแถวกลาง) มี (N/2)+1 แถว และครึ่งล่างมี N/2 แถว คำนวณจำนวนช่องว่างและดอกจันในแต่ละแถวให้สัมพันธ์กับตัวนับแถว i"
     }
   },
   {
     "day": 5,
     "phase": "ช่วงที่ 1: ปูพื้นฐานและฝึกพิมพ์โค้ด C++ (วันที่ 1–7)",
     "title": "Loop Control (Break, Continue) และการแยกตัวประกอบ",
-    "description": "การควบคุมลูปอย่างมีประสิทธิภาพด้วย break, continue, และการวิเคราะห์ขอบเขตตัวแปร (Variable Scope)",
+    "description": "แยกตัวประกอบเฉพาะทั้งหมดของจำนวนเต็ม N ให้เสร็จภายในเวลา O(sqrt(N))",
     "videos": [
       {
         "id": "prog-18",
@@ -1700,18 +1708,20 @@ export const DAYS_ROADMAP = [
     ],
     "challenge": {
       "filename": "05-loop-control.cpp",
-      "title": "แยกตัวประกอบเฉพาะ (Prime Factorization in O(sqrt(N)))",
-      "description": "รับจำนวนเต็ม N (2 <= N <= 10^12) เขียนโปรแกรมแยกตัวประกอบเฉพาะทั้งหมดของ N โดยรันลูปถึง sqrt(N) และใช้ break/continue อย่างมีประสิทธิภาพ เพื่อให้ตอบคำถามได้ภายในเวลา 0.1 วินาที",
-      "input": "จำนวนเต็ม N",
-      "output": "ตัวประกอบเฉพาะทั้งหมดเรียงจากน้อยไปมาก คั่นด้วยช่องว่าง",
-      "example": "Input: 360\nOutput: 2 2 2 3 3 5"
+      "title": "แยกตัวประกอบเฉพาะ (Prime Factorization)",
+      "description": "รับจำนวนเต็มบวก N จงหาตัวประกอบเฉพาะ (Prime Factors) ทั้งหมดของ N โดยแสดงเรียงจากน้อยไปมาก",
+      "input": "จำนวนเต็มบวก N (2 <= N <= 10^12)",
+      "output": "ตัวประกอบเฉพาะทั้งหมดของ N เรียงจากน้อยไปมาก คั่นด้วยช่องว่าง",
+      "sampleInput": "360",
+      "sampleOutput": "2 2 2 3 3 5",
+      "hint": "วนลูปตรวจสอบตัวหารตั้งแต่ d = 2 ตราบเท่าที่ d * d <= N หาก d หาร N ลงตัว ให้พิมพ์ d และนำ d ไปหาร N จนกว่าจะหารไม่ลงตัว แล้วขยับ d ต่อไป หากจบลูปแล้ว N ยังมากกว่า 1 ให้พิมพ์ N ตัวสุดท้ายออกมา"
     }
   },
   {
     "day": 6,
     "phase": "ช่วงที่ 1: ปูพื้นฐานและฝึกพิมพ์โค้ด C++ (วันที่ 1–7)",
     "title": "อาเรย์ 1 มิติ และ 2 มิติ (1D / 2D Arrays)",
-    "description": "โครงสร้างอาเรย์พื้นฐาน การส่งอาเรย์เข้าฟังก์ชัน และการดำเนินการบนเมทริกซ์ 2 มิติ",
+    "description": "รับเมทริกซ์ขนาด R x C แล้วหา Matrix Transpose (C x R) พร้อมทั้งคำนวณผลรวมของสมาชิกในแต่ละแถว",
     "videos": [
       {
         "id": "prog-25",
@@ -1752,18 +1762,20 @@ export const DAYS_ROADMAP = [
     ],
     "challenge": {
       "filename": "06-arrays.cpp",
-      "title": "Matrix Transpose & Sub-grid Sum",
-      "description": "รับมิติเมทริกซ์ R แถว C คอลัมน์ และค่าของสมาชิกทั้งหมด จงพิมพ์ Matrix Transpose ขนาด C x R ออกมา และคำนวณผลรวมของแต่ละแถวในเมทริกซ์ตั้งต้น",
-      "input": "บรรทัดแรก R และ C (1 <= R, C <= 100) จากนั้นตามด้วย R บรรทัด แต่ละบรรทัดมี C ตัวเลข",
-      "output": "C บรรทัดแสดง Transpose Matrix และตามด้วย R บรรทัดแสดง 'Row i sum: X'",
-      "example": "Input:\n2 3\n1 2 3\n4 5 6\nOutput:\n1 4\n2 5\n3 6\nRow 1 sum: 6\nRow 2 sum: 15"
+      "title": "Matrix Transpose & ผลรวมแถว",
+      "description": "รับขนาดเมทริกซ์ R แถว C คอลัมน์ และสมาชิกทั้งหมด จงพิมพ์ Transpose Matrix ขนาด C แถว R คอลัมน์ออกมา และตามด้วยผลรวมของสมาชิกในแต่ละแถวของเมทริกซ์ตั้งต้น",
+      "input": "บรรทัดแรกประกอบด้วย R และ C (1 <= R, C <= 100) ตามด้วย R บรรทัด แต่ละบรรทัดมี C ตัวเลข",
+      "output": "C บรรทัดแรกแสดง Matrix Transpose และตามด้วย R บรรทัดแสดง 'Row i sum: X' (โดย i เริ่มจาก 1 ถึง R)",
+      "sampleInput": "2 3\n1 2 3\n4 5 6",
+      "sampleOutput": "1 4\n2 5\n3 6\nRow 1 sum: 6\nRow 2 sum: 15",
+      "hint": "สมาชิกแถว r คอลัมน์ c ในเมทริกซ์เดิม จะกลายเป็นสมาชิกแถว c คอลัมน์ r ใน Transpose Matrix"
     }
   },
   {
     "day": 7,
     "phase": "ช่วงที่ 1: ปูพื้นฐานและฝึกพิมพ์โค้ด C++ (วันที่ 1–7)",
     "title": "ตัวอักษร, ข้อความ และฟังก์ชัน (char, string, functions)",
-    "description": "การประมวลผลข้อความ std::string, อาเรย์ตัวอักษร และการส่งพารามิเตอร์แบบ Pass by Reference",
+    "description": "รับสตริง 2 บรรทัด ตรวจสอบว่าบรรทัดแรกเป็น Palindrome หรือไม่ และตรวจสอบว่าทั้งสองข้อความเป็น Anagram หรือไม่",
     "videos": [
       {
         "id": "prog-08",
@@ -1805,17 +1817,19 @@ export const DAYS_ROADMAP = [
     "challenge": {
       "filename": "07-strings.cpp",
       "title": "Palindrome & Anagram Analyzer",
-      "description": "รับข้อความสตริง 2 บรรทัด เขียนฟังก์ชันตรวจสอบว่าข้อความบรรทัดแรกเป็น Palindrome หรือไม่ (ไม่คำนึงถึงตัวพิมพ์เล็ก-ใหญ่และช่องว่าง) และเขียนฟังก์ชันตรวจสอบว่าข้อความทั้งสองบรรทัดเป็น Anagram ซึ่งกันและกันหรือไม่",
-      "input": "สตริง 2 บรรทัด (ความยาวไม่เกิน 1,000 ตัวอักษร)",
-      "output": "2 บรรทัด: 'PALINDROME: YES/NO' และ 'ANAGRAM: YES/NO'",
-      "example": "Input:\nRace car\nCarrace\nOutput:\nPALINDROME: YES\nANAGRAM: YES"
+      "description": "รับข้อความ 2 บรรทัด เขียนฟังก์ชันตรวจสอบ 2 อย่าง: (1) ข้อความแรกเป็น Palindrome หรือไม่ (โดยไม่สนใจตัวพิมพ์เล็ก-ใหญ่และช่องว่าง) และ (2) ข้อความทั้งสองเป็น Anagram ซึ่งกันและกันหรือไม่",
+      "input": "ข้อความ 2 บรรทัด (ความยาวไม่เกิน 1,000 ตัวอักษรต่อบรรทัด)",
+      "output": "แสดง 2 บรรทัด:\nบรรทัดที่ 1: 'PALINDROME: YES' หรือ 'PALINDROME: NO'\nบรรทัดที่ 2: 'ANAGRAM: YES' หรือ 'ANAGRAM: NO'",
+      "sampleInput": "Race car\nCarrace",
+      "sampleOutput": "PALINDROME: YES\nANAGRAM: YES",
+      "hint": "ใช้ฟังก์ชัน tolower() แปลงทุกตัวอักษรเป็นพิมพ์เล็ก และใช้ getline(cin, str) ในการอ่านสตริงทั้งบรรทัดที่มีช่องว่าง"
     }
   },
   {
     "day": 8,
     "phase": "ช่วงที่ 2: C++ STL และโครงสร้างข้อมูลสำคัญ (วันที่ 8–15)",
     "title": "STL Vector และ Dynamic Array",
-    "description": "หัวใจสำคัญของโจทย์แข่งขัน: std::vector, การจัดการความจุ, push_back, pop_back และการตัดข้อมูลซ้ำ",
+    "description": "รับลำดับตัวเลข N ค่า ใส่ใน std::vector ลบตัวเลขที่ปรากฏซ้ำออกโดยคงลำดับเดิมไว้",
     "videos": [
       {
         "id": "dsa-01",
@@ -1847,18 +1861,20 @@ export const DAYS_ROADMAP = [
     ],
     "challenge": {
       "filename": "08-vector.cpp",
-      "title": "การจัดการลำดับตัวเลข & กำจัดตัวซ้ำ (Deduplication)",
-      "description": "รับจำนวนเต็ม N ตามด้วยตัวเลข N ค่า ใส่ลงใน vector<int> จงลบตัวเลขที่ปรากฏซ้ำออกโดยคงลำดับการปรากฏครั้งแรกไว้ และพิมพ์ขนาดใหม่พร้อมสมาชิกทั้งหมดของเวกเตอร์",
-      "input": "บรรทัดแรก N (1 <= N <= 10^5) บรรทัดถัดไปมี N ตัวเลข",
-      "output": "บรรทัดแรกคือขนาดของเวกเตอร์หลังตัดตัวซ้ำ บรรทัดที่สองคือสมาชิกที่เหลือเรียงตามลำดับเดิม",
-      "example": "Input:\n8\n4 2 4 5 2 3 1 5\nOutput:\nSize: 5\n4 2 5 3 1"
+      "title": "การจัดการเวกเตอร์ & ลบตัวซ้ำ (Deduplication)",
+      "description": "รับจำนวนเต็ม N ตัวเลข ใส่ลงใน vector<int> จงลบตัวเลขที่ซ้ำกันออกโดยคงลำดับการปรากฏครั้งแรกของแต่ละตัวเลขไว้ แล้วแสดงขนาดใหม่พร้อมสมาชิกทั้งหมด",
+      "input": "บรรทัดแรกคือ N (1 <= N <= 10^5) บรรทัดถัดไปมีตัวเลข N จำนวน คั่นด้วยช่องว่าง",
+      "output": "บรรทัดแรกแสดง 'Size: K' (K คือขนาดหลังลบตัวซ้ำ) บรรทัดที่สองแสดงสมาชิกที่เหลือคั่นด้วยช่องว่าง",
+      "sampleInput": "8\n4 2 4 5 2 3 1 5",
+      "sampleOutput": "Size: 5\n4 2 5 3 1",
+      "hint": "สามารถใช้ std::unordered_set หรือ boolean array ช่วยเช็คว่าเคยเจอตัวเลขนี้มาก่อนหรือไม่ใน O(1) เพื่อให้ทำงานได้ภายในเวลา O(N)"
     }
   },
   {
     "day": 9,
     "phase": "ช่วงที่ 2: C++ STL และโครงสร้างข้อมูลสำคัญ (วันที่ 8–15)",
     "title": "Iterators, std::pair และ Pair-Sum Problem",
-    "description": "การใช้ Iterators ท่องโครงสร้างข้อมูล, การจับคู่ข้อมูลด้วย std::pair และการแก้ปัญหา Pair-Sum",
+    "description": "รับพิกัดจุด 2 มิติ เก็บใน vector<pair<int, int>> คำนวณระยะห่างจากจุดกำเนิด (0, 0) และจัดเรียงจุดจากใกล้ไปไกล",
     "videos": [
       {
         "id": "dsa-05",
@@ -1899,18 +1915,20 @@ export const DAYS_ROADMAP = [
     ],
     "challenge": {
       "filename": "09-pair.cpp",
-      "title": "พิกัดระนาบ 2 มิติ & การคำนวณระยะห่างจุด",
-      "description": "รับพิกัดจุด (x, y) จำนวน N จุด เก็บใน vector<pair<int, int>> คำนวณระยะห่างแบบ Euclidean จากจุดกำเนิด (0, 0) และจัดเรียงจุดจากระยะทางใกล้ไปไกล หากระยะทางเท่ากันให้เรียงตามค่า x จากน้อยไปมาก",
-      "input": "บรรทัดแรก N (1 <= N <= 10^4) ตามด้วย N บรรทัด แต่ละบรรทัดมีค่า x และ y (-10^4 <= x, y <= 10^4)",
+      "title": "พิกัดระนาบ 2 มิติ & การเรียงลำดับระยะทาง",
+      "description": "รับพิกัดจุด (x, y) จำนวน N จุด เก็บใน vector<pair<int, int>> จงจัดเรียงลำดับจุดตามระยะห่างแบบ Euclidean จากจุด (0, 0) จากน้อยไปมาก หากระยะห่างเท่ากันให้เรียงตามค่า x จากน้อยไปมาก",
+      "input": "บรรทัดแรกคือ N (1 <= N <= 10^4) ตามด้วย N บรรทัด แต่ละบรรทัดมีค่า x และ y (-10^4 <= x, y <= 10^4)",
       "output": "N บรรทัด แสดงพิกัดจุดในรูปแบบ '(x, y)' ที่เรียงลำดับแล้ว",
-      "example": "Input:\n3\n3 4\n1 1\n0 2\nOutput:\n(1, 1)\n(0, 2)\n(3, 4)"
+      "sampleInput": "3\n3 4\n1 1\n0 2",
+      "sampleOutput": "(1, 1)\n(0, 2)\n(3, 4)",
+      "hint": "ระยะทางกำลังสองคือ x*x + y*y ไม่จำเป็นต้องถอด sqrt เพื่อหลีกเลี่ยงความคลาดเคลื่อนของทศนิยม และสามารถใช้ std::sort ร่วมกับ lambda หรือฟังก์ชันเปรียบเทียบ"
     }
   },
   {
     "day": 10,
     "phase": "ช่วงที่ 2: C++ STL และโครงสร้างข้อมูลสำคัญ (วันที่ 8–15)",
     "title": "std::set, multiset และการนับข้อมูลไม่ซ้ำ",
-    "description": "โครงสร้างข้อมูลแบบ Red-Black Tree ภายใน STL ที่ค้นหา แทรก และลบในเวลา O(log N)",
+    "description": "จำลองระบบทะเบียนสมาชิกด้วย std::set รองรับคำสั่ง INSERT, FIND, และ COUNT ในเวลา O(log N)",
     "videos": [
       {
         "id": "dsa-07",
@@ -1943,17 +1961,19 @@ export const DAYS_ROADMAP = [
     "challenge": {
       "filename": "10-set.cpp",
       "title": "ระบบตรวจสอบรหัสสมาชิกแบบ Real-time",
-      "description": "จำลองระบบทะเบียนสมาชิก มีคำสั่ง Q คำสั่ง: 'INSERT X' เพิ่มรหัส X เข้าระบบ, 'FIND X' ตรวจว่ามี X หรือไม่, 'COUNT' แสดงจำนวนรหัสที่ไม่ซ้ำทั้งหมด โดยใช้ std::set ในการจัดการให้เสร็จใน O(Q log N)",
-      "input": "บรรทัดแรก Q (1 <= Q <= 10^5) ตามด้วย Q บรรทัดของคำสั่ง",
-      "output": "แสดงผลคำตอบของคำสั่ง FIND ('FOUND' หรือ 'NOT FOUND') และผลลัพธ์ของคำสั่ง COUNT",
-      "example": "Input:\n5\nINSERT 101\nINSERT 202\nFIND 101\nFIND 303\nCOUNT\nOutput:\nFOUND\nNOT FOUND\n2"
+      "description": "จำลองระบบทะเบียนสมาชิก รองรับคำสั่ง Q คำสั่ง:\n- 'INSERT X': เพิ่มรหัส X เข้าระบบ (ถ้ามีอยู่แล้วไม่ต้องทำซ้ำ)\n- 'FIND X': ตรวจสอบว่ามีรหัส X ในระบบหรือไม่\n- 'COUNT': แสดงจำนวนรหัสสมาชิกทั้งหมดในระบบ",
+      "input": "บรรทัดแรกคือ Q (1 <= Q <= 10^5) ตามด้วย Q บรรทัดของคำสั่ง",
+      "output": "แสดงผลลัพธ์ของคำสั่ง FIND ('FOUND' หรือ 'NOT FOUND') และผลลัพธ์ของคำสั่ง COUNT แยกบรรทัด",
+      "sampleInput": "5\nINSERT 101\nINSERT 202\nFIND 101\nFIND 303\nCOUNT",
+      "sampleOutput": "FOUND\nNOT FOUND\n2",
+      "hint": "ใช้ std::set<int> ฟังก์ชัน s.insert(x) จะไม่เก็บตัวซ้ำ และ s.count(x) หรือ s.find(x) ทำงานในเวลา O(log N)"
     }
   },
   {
     "day": 11,
     "phase": "ช่วงที่ 2: C++ STL และโครงสร้างข้อมูลสำคัญ (วันที่ 8–15)",
     "title": "std::map, unordered_map และ Word Count",
-    "description": "ตารางจับคู่ Key-Value: เปรียบเทียบประสิทธิภาพ std::map (O(log N)) กับ std::unordered_map (เฉลี่ย O(1))",
+    "description": "นับความถี่ของคำศัพท์แต่ละคำในบทความด้วย std::map และแสดงสถิติเรียงตามตัวอักษรพร้อมระบุคำที่พบบ่อยที่สุด",
     "videos": [
       {
         "id": "dsa-09",
@@ -1976,18 +1996,20 @@ export const DAYS_ROADMAP = [
     ],
     "challenge": {
       "filename": "11-map.cpp",
-      "title": "การจัดอันดับความถี่คำศัพท์ (Word Frequency Ranking)",
-      "description": "รับข้อความบทความความยาว N คำ ใช้ std::map นับความถี่ของคำทั้งหมด และแสดงคำศัพท์พร้อมจำนวนครั้งที่ปรากฏ เรียงตามลำดับตัวอักษรของคำ พร้อมระบุคำที่ปรากฏบ่อยที่สุด (โหมด)",
-      "input": "บรรทัดแรก N (1 <= N <= 10^4) บรรทัดถัดไปมีข้อความ N คำ คั่นด้วยช่องว่าง",
-      "output": "รายการคำศัพท์และจำนวนครั้ง 'word: count' เรียงตามตัวอักษร และบรรทัดสุดท้ายพิมพ์ 'Most frequent: word (X times)'",
-      "example": "Input:\n6\ncpp python cpp java python cpp\nOutput:\ncpp: 3\njava: 1\npython: 2\nMost frequent: cpp (3 times)"
+      "title": "การจัดอันดับความถี่คำศัพท์ (Word Frequency)",
+      "description": "รับข้อความ N คำ ใช้ std::map นับจำนวนครั้งที่แต่ละคำปรากฏ แล้วแสดงรายการคำพร้อมจำนวนครั้งเรียงตามตัวอักษร และในบรรทัดสุดท้ายแสดงคำที่ปรากฏบ่อยที่สุด",
+      "input": "บรรทัดแรกคือ N (1 <= N <= 10^4) บรรทัดถัดไปมีคำศัพท์ N คำ คั่นด้วยช่องว่าง",
+      "output": "แสดงรายการคำในรูปแบบ 'word: count' เรียงตามตัวอักษร และบรรทัดสุดท้ายแสดง 'Most frequent: word (X times)'",
+      "sampleInput": "6\ncpp python cpp java python cpp",
+      "sampleOutput": "cpp: 3\njava: 1\npython: 2\nMost frequent: cpp (3 times)",
+      "hint": "std::map<string, int> จะเรียงลำดับ Key ตามตัวอักษรให้อัตโนมัติเมื่อวนลูปด้วย for (auto& p : freqMap)"
     }
   },
   {
     "day": 12,
     "phase": "ช่วงที่ 2: C++ STL และโครงสร้างข้อมูลสำคัญ (วันที่ 8–15)",
     "title": "Stack (std::stack) และ Parenthesis Checking",
-    "description": "โครงสร้างข้อมูลแบบ LIFO: การตรวจสอบความสมดุลของวงเล็บ และ Next Greater Element บนอาเรย์",
+    "description": "ตรวจสอบความถูกต้องสมบูรณ์ของสตริงวงเล็บผสม (), [], {} ด้วยโครงสร้างข้อมูลแบบ LIFO (Stack)",
     "videos": [
       {
         "id": "dsa-26",
@@ -2019,18 +2041,20 @@ export const DAYS_ROADMAP = [
     ],
     "challenge": {
       "filename": "12-stack.cpp",
-      "title": "ตรวจสอบความสมบูรณ์ของวงเล็บซับซ้อน & Next Greater Element",
-      "description": "รับสตริงที่ประกอบด้วยวงเล็บ 3 แบบ (), [], {} จงใช้ std::stack ตรวจสอบว่าวงเล็บทั้งหมดเปิด-ปิดอย่างถูกต้องสมบูรณ์หรือไม่ ถ้าถูกต้องให้พิมพ์ BALANCED ถ้าไม่ถูกต้องให้พิมพ์ INVALID",
-      "input": "สตริงวงเล็บ 1 บรรทัด ความยาวไม่เกิน 10^5 ตัวอักษร",
-      "output": "BALANCED หรือ INVALID",
-      "example": "Input: {[()()]}\nOutput: BALANCED"
+      "title": "ตรวจสอบความสมบูรณ์ของวงเล็บ (Valid Parentheses)",
+      "description": "รับสตริงที่ประกอบด้วยวงเล็บ 3 ชนิด คือ (), [], {} จงใช้ std::stack ตรวจสอบว่าวงเล็บทั้งหมดเปิดและปิดถูกต้องตามลำดับและจับคู่กันสมบูรณ์หรือไม่",
+      "input": "สตริงวงเล็บ 1 บรรทัด (ความยาวไม่เกิน 10^5 ตัวอักษร)",
+      "output": "แสดง 'BALANCED' หากวงเล็บถูกต้องสมบูรณ์ หรือแสดง 'INVALID' หากไม่ถูกต้อง",
+      "sampleInput": "{[()()]}",
+      "sampleOutput": "BALANCED",
+      "hint": "เมื่อเจอวงเล็บเปิดให้ push ลง stack เมื่อเจอวงเล็บปิดให้ตรวจว่า stack ว่างหรือไม่ และตัวบนสุดของ stack ตรงกับคู่วงเล็บเปิดของมันหรือไม่ ถ้าใช่ให้ pop ออก หากจบสตริงแล้ว stack ต้องว่างสนิทจึงจะ BALANCED"
     }
   },
   {
     "day": 13,
     "phase": "ช่วงที่ 2: C++ STL และโครงสร้างข้อมูลสำคัญ (วันที่ 8–15)",
     "title": "Queue (std::queue) และ Circular Queue",
-    "description": "โครงสร้างข้อมูลแบบ FIFO: การบริหารลำดับคิว, Circular Queue ภายใน และการจำลองระบบรับส่งงาน",
+    "description": "จำลองคิวบริการลูกค้าแบบ FIFO ด้วย std::queue พร้อมคำนวณเวลาที่ลูกค้าแต่ละคนได้รับบริการ",
     "videos": [
       {
         "id": "dsa-29",
@@ -2062,18 +2086,20 @@ export const DAYS_ROADMAP = [
     ],
     "challenge": {
       "filename": "13-queue.cpp",
-      "title": "การจำลองคิวบริการธนาคาร (Queue Waiting Time Simulation)",
-      "description": "จำลองคิวบริการลูกค้าด้วย std::queue มีคำสั่ง: 'ARRIVE Name ServiceTime' ลูกค้าเข้าคิว, 'SERVE' พนักงานเรียกลูกค้าคนถัดไป คำนวณเวลาที่ลูกค้าแต่ละคนได้รับบริการและเวลารวมทั้งหมด",
-      "input": "จำนวนคำสั่ง K ตามด้วยรายการคำสั่ง",
-      "output": "แสดงลำดับการบริการลูกค้าแต่ละคนพร้อมเวลาที่เสร็จสิ้น",
-      "example": "Input:\n4\nARRIVE Guy 5\nARRIVE Fan 3\nSERVE\nSERVE\nOutput:\nServed Guy at minute 5\nServed Fan at minute 8"
+      "title": "การจำลองคิวบริการธนาคาร (Bank Queue Simulation)",
+      "description": "จำลองคิวบริการลูกค้าด้วย std::queue มีคำสั่ง 2 แบบ:\n- 'ARRIVE Name ServiceTime': ลูกค้าชื่อ Name เข้าคิว ใช้เวลาบริการ ServiceTime นาที\n- 'SERVE': พนักงานเรียกลูกค้าคิวแรกเข้ารับบริการ\nจงคำนวณและแสดงเวลาที่ลูกค้าแต่ละคนได้รับบริการเสร็จสิ้น",
+      "input": "บรรทัดแรกจำนวนคำสั่ง K ตามด้วย K บรรทัดของคำสั่ง",
+      "output": "แสดงข้อความ 'Served Name at minute X' เมื่อมีคำสั่ง SERVE แต่ละครั้ง",
+      "sampleInput": "4\nARRIVE Guy 5\nARRIVE Fan 3\nSERVE\nSERVE",
+      "sampleOutput": "Served Guy at minute 5\nServed Fan at minute 8",
+      "hint": "สร้าง struct Customer เก็บชื่อและเวลาบริการ ใช้ queue<Customer> และมีตัวแปรสะสมเวลา currentTime"
     }
   },
   {
     "day": 14,
     "phase": "ช่วงที่ 2: C++ STL และโครงสร้างข้อมูลสำคัญ (วันที่ 8–15)",
     "title": "Priority Queue (Heap) ในการแข่งขัน",
-    "description": "โครงสร้าง Binary Heap: การดึงค่าสูงสุด/ต่ำสุดใน O(log N), Max-Heap, Min-Heap ด้วย greater<T>",
+    "description": "รับสตรีมคะแนน N ค่า แล้วพิมพ์คะแนนสูงสุด K อันดับแรกโดยใช้ std::priority_queue ในเวลา O(N log K)",
     "videos": [
       {
         "id": "dsa-39",
@@ -2105,18 +2131,20 @@ export const DAYS_ROADMAP = [
     ],
     "challenge": {
       "filename": "14-priority-queue.cpp",
-      "title": "สตรีมคะแนนแข่งขัน & ดึง Top-K สูงสุดแบบ Dynamic",
-      "description": "รับสตรีมคะแนนของผู้เข้าแข่งขัน N คนแบบเรียลไทม์ จงใช้ priority_queue เพื่อแสดงค่าคะแนนสูงสุด K อันดับแรกตลอดเวลาหลังจากอ่านคะแนนครบทั้งหมด โดยใช้เวลาเพียง O(N log K)",
-      "input": "บรรทัดแรก N และ K (1 <= K <= N <= 10^5) บรรทัดถัดไปคือคะแนน N จำนวน",
-      "output": "คะแนนสูงสุด K ค่า เรียงจากมากไปน้อย คั่นด้วยช่องว่าง",
-      "example": "Input:\n6 3\n12 45 67 23 89 54\nOutput: 89 67 54"
+      "title": "Top-K คะแนนสูงสุดแบบไดนามิก (Min-Heap Strategy)",
+      "description": "รับจำนวนเต็ม N และ K ตามด้วยคะแนน N จำนวน จงหาคะแนนที่สูงที่สุด K อันดับแรก และพิมพ์เรียงจากมากไปหาน้อย",
+      "input": "บรรทัดแรกประกอบด้วย N และ K (1 <= K <= N <= 10^5) บรรทัดถัดไปมีตัวเลขคะแนน N จำนวน",
+      "output": "แสดงตัวเลขคะแนนสูงสุด K อันดับแรก เรียงจากมากไปน้อย คั่นด้วยช่องว่าง",
+      "sampleInput": "6 3\n12 45 67 23 89 54",
+      "sampleOutput": "89 67 54",
+      "hint": "ใช้ priority_queue<int, vector<int>, greater<int>> (Min-Heap) ขนาดไม่เกิน K ตัว เมื่อมีตัวใหม่เข้ามาถ้ามากกว่าตัวบนสุดของ heap ให้ pop ตัวเก่าออกแล้ว push ตัวใหม่เข้าไป"
     }
   },
   {
     "day": 15,
     "phase": "ช่วงที่ 2: C++ STL และโครงสร้างข้อมูลสำคัญ (วันที่ 8–15)",
     "title": "Custom Comparators และ Operator Overloading",
-    "description": "การจัดอันดับข้อมูลหลายมิติด้วย std::sort, การนิยาม operator< และการเขียน Lambda Comparator สำหรับการแข่ง",
+    "description": "สร้าง struct ข้อมูลผู้แข่งขัน และเขียน custom comparator จัดอันดับตามเงื่อนไขหลายระดับอย่างแม่นยำ",
     "videos": [
       {
         "id": "dsa-40",
@@ -2149,17 +2177,19 @@ export const DAYS_ROADMAP = [
     "challenge": {
       "filename": "15-comparators.cpp",
       "title": "ระบบจัดอันดับ Scoreboard การแข่งขัน C++",
-      "description": "สร้าง struct Competitor ประกอบด้วย ชื่อ (string), จำนวนข้อที่ผ่าน (int), คะแนนรวม (int), เวลาส่งงานนาที (int) จงเขียน custom comparator จัดลำดับ: ข้อมากสุดก่อน หากเท่ากันให้คะแนนรวมมากสุดก่อน หากเท่ากันให้เวลาส่งงานน้อยสุดก่อน",
-      "input": "บรรทัดแรกจำนวนผู้เข้าแข่ง N ตามด้วย N บรรทัดแสดง ชื่อ ข้อผ่าน คะแนน เวลา",
-      "output": "ลำดับ Scoreboard จากอันดับ 1 ถึง N",
-      "example": "Input:\n3\nGUY 4 400 120\nHAN 4 400 95\nFAN 3 300 80\nOutput:\n1. HAN (4 solves, 400 pts, 95m)\n2. GUY (4 solves, 400 pts, 120m)\n3. FAN (3 solves, 300 pts, 80m)"
+      "description": "สร้าง struct Competitor (ชื่อ, จำนวนข้อที่ผ่าน, คะแนนรวม, เวลาส่งงานนาที) จงจัดอันดับ Scoreboard ตามเงื่อนไข:\n1. ผู้ที่แก้โจทย์ได้มากกว่าได้อันดับดีกว่า\n2. ถ้าจำนวนข้อเท่ากัน ผู้ที่คะแนนรวมมากกว่าได้อันดับดีกว่า\n3. ถ้าคะแนนเท่ากัน ผู้ที่เวลาส่งงานน้อยกว่าได้อันดับดีกว่า",
+      "input": "บรรทัดแรกจำนวนผู้เข้าแข่ง N (1 <= N <= 1000) ตามด้วย N บรรทัด แต่ละบรรทัดระบุ ชื่อ ข้อผ่าน คะแนน เวลา",
+      "output": "แสดงอันดับ Scoreboard ตั้งแต่อันดับ 1 ถึง N ในรูปแบบ '1. Name (X solves, Y pts, Zm)'",
+      "sampleInput": "3\nGUY 4 400 120\nHAN 4 400 95\nFAN 3 300 80",
+      "sampleOutput": "1. HAN (4 solves, 400 pts, 95m)\n2. GUY (4 solves, 400 pts, 120m)\n3. FAN (3 solves, 300 pts, 80m)",
+      "hint": "เขียนฟังก์ชัน bool compare(const Competitor& a, const Competitor& b) โดยคืนค่าจริงเมื่อ a มีสิทธิ์ได้อันดับดีกว่า b แล้วส่งเข้าไปใน std::sort"
     }
   },
   {
     "day": 16,
     "phase": "ช่วงที่ 3: อัลกอริทึมและการจำลองสนามแข่ง (วันที่ 16–20)",
     "title": "Complexity Analysis & การคำนวณ Big-O",
-    "description": "การคำนวณเวลาประมวลผล Big-O, Asymptotic Notation และเทคนิค Two Pointers บนอาเรย์ที่เรียงแล้ว",
+    "description": "รับอาเรย์ที่เรียงจากน้อยไปมากแล้ว หาคู่ตัวเลขที่มีผลบวกเท่ากับ Target ด้วยเทคนิค Two Pointers ใน O(N)",
     "videos": [
       {
         "id": "dsa-22",
@@ -2191,18 +2221,20 @@ export const DAYS_ROADMAP = [
     ],
     "challenge": {
       "filename": "16-complexity.cpp",
-      "title": "ค้นหาคู่ตัวเลขผลบวกเป้าหมาย (Two Pointers in O(N))",
-      "description": "รับอาเรย์จำนวนเต็มที่เรียงจากน้อยไปมากแล้วขนาด N (N <= 10^6) และค่าเป้าหมาย Target จงใช้เทคนิค Two Pointers (หัว-ท้าย) หาคู่ตัวเลขที่มีผลบวกเท่ากับ Target ให้ได้ในเวลา O(N) ห้ามใช้ Nested Loop O(N^2)",
-      "input": "บรรทัดแรก N และ Target ตามด้วย N ตัวเลขที่เรียงแล้ว",
-      "output": "ตำแหน่ง Index ของคู่ตัวเลขที่พบ หรือพิมพ์ 'NONE' หากไม่พบคู่ที่ตรงเงื่อนไข",
-      "example": "Input:\n5 9\n1 2 4 7 11\nOutput: Found: 2 + 7 = 9 at indices 1 and 3"
+      "title": "ค้นหาคู่ผลบวกเป้าหมาย (Two Pointers in O(N))",
+      "description": "รับอาเรย์ที่เรียงลำดับจากน้อยไปมากแล้วขนาด N และค่าเป้าหมาย Target จงหาคู่ตัวเลขในอาเรย์ที่มีผลบวกเท่ากับ Target โดยใช้อัลกอริทึม Two Pointers ที่ทำงานในเวลา O(N) ห้ามใช้ลูปซ้อน O(N^2)",
+      "input": "บรรทัดแรกคือ N และ Target (1 <= N <= 10^6) บรรทัดถัดไปมีตัวเลข N จำนวนที่เรียงลำดับแล้ว",
+      "output": "แสดง 'Found: A + B = Target at indices i and j' (โดย i และ j เริ่มจาก 0) หรือแสดง 'NONE' หากไม่พบคู่ที่บวกได้ตามเป้าหมาย",
+      "sampleInput": "5 9\n1 2 4 7 11",
+      "sampleOutput": "Found: 2 + 7 = 9 at indices 1 and 3",
+      "hint": "ใช้ pointer ซ้าย L = 0 และขวา R = N - 1 ถ้า arr[L] + arr[R] == Target แสดงว่าเจอ ถ้าผลบวกน้อยไปให้ L++ ถ้าผลบวกมากไปให้ R--"
     }
   },
   {
     "day": 17,
     "phase": "ช่วงที่ 3: อัลกอริทึมและการจำลองสนามแข่ง (วันที่ 16–20)",
     "title": "Binary Search & Divide and Conquer",
-    "description": "การค้นหาทวิภาค: std::lower_bound, std::upper_bound และเทคนิค Binary Search on Answer สำหรับโจทย์ตัดไม้/แจกของ",
+    "description": "หาความสูงของใบเลื่อยตัดไม้ที่สูงที่สุดที่ยังคงได้เนื้อไม้อย่างน้อย M เมตร ด้วยเทคนิค Binary Search on Answer",
     "videos": [
       {
         "id": "dsa-97",
@@ -2235,17 +2267,19 @@ export const DAYS_ROADMAP = [
     "challenge": {
       "filename": "17-binary-search.cpp",
       "title": "Binary Search on Answer (โจทย์โรงเลื่อยไม้ EKO)",
-      "description": "มีต้นไม้ N ต้นที่มีความสูงต่างๆ ต้องการเลื่อยตัดยอดไม้เพื่อให้ได้เนื้อไม้อย่างน้อย M เมตร จงหาความสูงของใบเลื่อยตัดไม้ที่สูงที่สุดที่เป็นไปได้ โดยใช้ Binary Search on Answer ในขอบเขต [0, max(H)]",
-      "input": "บรรทัดแรก N และ M (1 <= N <= 10^6, 1 <= M <= 2*10^9) บรรทัดถัดไปคือความสูงต้นไม้ N ต้น",
-      "output": "ความสูงใบเลื่อยตัดไม้สูงสุดที่ยังคงได้เนื้อไม้อย่างน้อย M เมตร",
-      "example": "Input:\n4 7\n20 15 10 17\nOutput: 15"
+      "description": "มีต้นไม้ N ต้นที่มีความสูงต่างๆ กัน ต้องการตัดยอดไม้เพื่อให้ได้เนื้อไม้อย่างน้อย M เมตร จงหาความสูงของใบเลื่อยตัดไม้ (H) ที่สูงที่สุดที่เป็นไปได้",
+      "input": "บรรทัดแรกคือ N และ M (1 <= N <= 10^6, 1 <= M <= 2*10^9) บรรทัดถัดไปคือความสูงของต้นไม้ N ต้น",
+      "output": "แสดงค่าความสูงของใบเลื่อยตัดไม้ H สูงสุดที่เป็นไปได้",
+      "sampleInput": "4 7\n20 15 10 17",
+      "sampleOutput": "15",
+      "hint": "ขอบเขตคำตอบคือ [0, max_height] ทำ Binary Search หา mid ถ้าตัดที่ความสูง mid แล้วได้เนื้อไม้รวม >= M แสดงว่าตัดสูงกว่านี้ได้ (low = mid + 1) ระวังผลรวมเนื้อไม้อาจเกิน int ให้ใช้ long long"
     }
   },
   {
     "day": 18,
     "phase": "ช่วงที่ 3: อัลกอริทึมและการจำลองสนามแข่ง (วันที่ 16–20)",
     "title": "Recursion & การแบ่งแยกเพื่อเอาชนะ (Divide & Conquer)",
-    "description": "แนวคิด Recursive, การวิเคราะห์ Recursion Tree และเทคนิค Fast Exponentiation O(log N)",
+    "description": "เขียนฟังก์ชัน Recursive คำนวณ (A^B) mod M ในเวลา O(log B) และพิมพ์ขั้นตอนการย้ายหอคอยฮานอย N แผ่น",
     "videos": [
       {
         "id": "dsa-94",
@@ -2277,18 +2311,20 @@ export const DAYS_ROADMAP = [
     ],
     "challenge": {
       "filename": "18-recursion.cpp",
-      "title": "Fast Modular Exponentiation & Tower of Hanoi",
-      "description": "เขียนฟังก์ชัน Recursive คำนวณ (A^B) mod M ในเวลา O(log B) และเขียนฟังก์ชันพิมพ์ขั้นตอนการย้ายจานหอคอยฮานอย N จานจากเสา A ไปยังเสา C โดยใช้เสา B เป็นตัวช่วย",
-      "input": "บรรทัดแรก A, B, M สำหรับคำนวณยกกำลัง บรรทัดที่สองจำนวนจาน N (1 <= N <= 6)",
-      "output": "ผลลัพธ์ของเลขยกกำลัง และตามด้วยลำดับขั้นตอนการย้ายแผ่นจานฮานอย",
-      "example": "Input:\n2 10 1000\n3\nOutput:\nPower result: 24\nMove from A to C\nMove from A to B\nMove from C to B\nMove from A to C\nMove from B to A\nMove from B to C\nMove from A to C"
+      "title": "Fast Exponentiation & Tower of Hanoi",
+      "description": "เขียนโปรแกรมแก้ 2 ปัญหาด้วย Recursion:\n1. ฟังก์ชัน power(A, B, M) หาค่า (A^B) mod M ใน O(log B)\n2. ฟังก์ชัน hanoi(N, from, to, aux) แสดงขั้นตอนการย้ายจาน N แผ่น",
+      "input": "บรรทัดแรกระบุ A, B, M บรรทัดถัดไประบุจำนวนจาน N (1 <= N <= 5)",
+      "output": "บรรทัดแรกแสดง 'Power result: X' ตามด้วยลำดับการย้ายจานในแต่ละขั้นตอน",
+      "sampleInput": "2 10 1000\n3",
+      "sampleOutput": "Power result: 24\nMove from A to C\nMove from A to B\nMove from C to B\nMove from A to C\nMove from B to A\nMove from B to C\nMove from A to C",
+      "hint": "สูตร Fast Exponentiation: ถ้า B เป็นเลขคู่ A^B = (A^(B/2))^2 ถ้า B เป็นเลขคี่ A^B = A * A^(B-1)"
     }
   },
   {
     "day": 19,
     "phase": "ช่วงที่ 3: อัลกอริทึมและการจำลองสนามแข่ง (วันที่ 16–20)",
     "title": "Breadth First Search (BFS) บน Graph & Grid",
-    "description": "การท่องกราฟด้วย BFS: ค้นหาเส้นทางสั้นที่สุดบนกราฟที่ไม่ถ่วงน้ำหนักและการแก้โจทย์เขาวงกตด้วย Queue",
+    "description": "หาเส้นทางสั้นที่สุดออกจากเขาวงกตขนาด R x C ด้วย Breadth First Search ร่วมกับ std::queue",
     "videos": [
       {
         "id": "dsa-31",
@@ -2312,17 +2348,19 @@ export const DAYS_ROADMAP = [
     "challenge": {
       "filename": "19-bfs.cpp",
       "title": "เขาวงกตหาทางออกที่สั้นที่สุด (Maze Runner BFS)",
-      "description": "รับตารางเขาวงกตขนาด R x C ประกอบด้วยจุดเริ่ม 'S', ทางออก 'E', ทางเดิน '.', สิ่งกีดขวาง '#' จงใช้ BFS ร่วมกับ queue<pair<int, int>> เพื่อหาจำนวนก้าวที่สั้นที่สุดจาก S ไปยัง E",
-      "input": "บรรทัดแรก R และ C (1 <= R, C <= 100) ตามด้วย R บรรทัดของแผนที่เขาวงกต",
-      "output": "จำนวนก้าวสั้นที่สุด หรือ '-1' หากไม่มีทางเดินไปถึงทางออก",
-      "example": "Input:\n5 5\nS . . # .\n# # . # .\n. . . . .\n. # # # .\n. . . . E\nOutput: Shortest path: 8 steps"
+      "description": "รับแผนที่เขาวงกตขนาด R x C ประกอบด้วยจุดเริ่ม 'S', ทางออก 'E', ทางเดิน '.', และกำแพง '#' จงหาจำนวนก้าวที่สั้นที่สุดจากจุด S ไปถึง E โดยเดินได้ 4 ทิศทาง (บน ล่าง ซ้าย ขวา)",
+      "input": "บรรทัดแรกคือ R และ C (1 <= R, C <= 100) ตามด้วย R บรรทัดของแผนที่เขาวงกต",
+      "output": "แสดง 'Shortest path: K steps' หรือแสดง '-1' หากไม่สามารถเดินไปถึงทางออกได้",
+      "sampleInput": "5 5\nS . . # .\n# # . # .\n. . . . .\n. # # # .\n. . . . E",
+      "sampleOutput": "Shortest path: 8 steps",
+      "hint": "ใช้ queue<pair<int, int>> สำหรับ BFS และอาเรย์ dist[R][C] เพื่อบันทึกระยะทางและป้องกันการเดินซ้ำช่องเดิม"
     }
   },
   {
     "day": 20,
     "phase": "ช่วงที่ 3: อัลกอริทึมและการจำลองสนามแข่ง (วันที่ 16–20)",
     "title": "จำลองสนามแข่งจริง (Full Mock Contest & Speed Run)",
-    "description": "วันสุดท้ายก่อนวันแข่งขัน! ซ้อมแก้โจทย์จำลองสนามแข่ง จับเวลา 3 ชั่วโมง ตรวจสอบ Bug และทบทวนเทคนิคแก้โจทย์ภายใต้ความกดดัน",
+    "description": "ซ้อมทำชุดข้อสอบ 3 ข้อในไฟล์เดียวโดยจับเวลา 3 ชั่วโมง เพื่อความพร้อม 100% ก่อนลงสนามจริงวันที่ 27!",
     "videos": [
       {
         "id": "dsa-32",
@@ -2354,11 +2392,13 @@ export const DAYS_ROADMAP = [
     ],
     "challenge": {
       "filename": "20-mock-contest.cpp",
-      "title": "การจำลองชุดข้อสอบการแข่งขันจริง 3 ข้อรวมในไฟล์เดียว",
-      "description": "ซ้อมแก้โจทย์รวม 3 ข้อย่อยในไฟล์เดียวโดยจับเวลา 3 ชั่วโมง (ห้ามเปิดดูเฉลย): ข้อ 1 (Prefix Sum Fast I/O), ข้อ 2 (STL Map & Multi-key Ranking), ข้อ 3 (BFS Shortest Path ในตาราง 2 มิติ) รันผ่านทุกเคสเพื่อความพร้อม 100% ก่อนลงสนามวันที่ 27!",
-      "input": "Input ครอบคลุมทั้ง 3 ข้อย่อยตามรูปแบบในโจทย์",
-      "output": "แสดงผลลัพธ์ของทั้ง 3 ข้อย่อยอย่างถูกต้องสมบูรณ์",
-      "example": "Output:\nPart A (Prefix Sum): Passed\nPart B (Ranking): Passed\nPart C (BFS Path): Passed\nReady for Contest on Sept 27!"
+      "title": "ชุดข้อสอบจำลองสนามแข่งจริง 3 ข้อ (Speedrun Set)",
+      "description": "ทำข้อสอบจำลองสนามแข่งขัน 3 ข้อย่อยในไฟล์เดียว จับเวลา 3 ชั่วโมง:\n- ข้อ A: Fast I/O & Prefix Sum บนอาเรย์ 1 มิติ\n- ข้อ B: STL Map & การจัดอันดับผู้เล่นเกมส์ที่มีคะแนนสูงสุด\n- ข้อ C: BFS ค้นหาเส้นทางที่สั้นที่สุดในเขาวงกต",
+      "input": "ชุดข้อมูล Input ครบทั้ง 3 ส่วนตามที่ระบุในโจทย์ย่อย",
+      "output": "แสดงสถานะการผ่านทั้ง 3 ข้อ พร้อมข้อความยืนยันความพร้อมก่อนแข่ง",
+      "sampleInput": "Contest Simulation Mode",
+      "sampleOutput": "Part A (Prefix Sum): Passed\nPart B (Ranking): Passed\nPart C (BFS Path): Passed\nReady for Contest on Sept 27!",
+      "hint": "อ่านโจทย์ให้ครบทั้ง 3 ข้อก่อนเริ่มเขียน วางแผนแก้ข้อที่ง่ายที่สุดเพื่อเก็บคะแนนชัวร์ก่อน แล้วค่อยทำข้อที่ต้องคิดอัลกอริทึม"
     }
   }
 ];
