@@ -162,18 +162,18 @@ export default function App() {
       
       {/* Toast Notification Banner */}
       {toast && (
-        <div className="fixed bottom-4 right-4 z-50 animate-in slide-in-from-bottom duration-200">
-          <div className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl shadow-xl border text-xs font-mono backdrop-blur-md ${
+        <div className="fixed bottom-5 right-5 z-50 animate-in fade-in slide-in-from-bottom-3 duration-200">
+          <div className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl shadow-2xl border text-xs font-mono backdrop-blur-xl ${
             toast.type === 'error'
-              ? 'bg-slate-900/90 border-rose-800 text-rose-300'
-              : 'bg-slate-900/90 border-slate-700 text-slate-200'
+              ? 'bg-[#150a0f]/95 border-rose-500/40 text-rose-300 shadow-[0_8px_32px_rgba(244,63,94,0.15),inset_0_1px_0_rgba(255,255,255,0.1)]'
+              : 'bg-[#0a0f1d]/95 border-emerald-500/40 text-slate-100 shadow-[0_8px_32px_rgba(16,185,129,0.15),inset_0_1px_0_rgba(255,255,255,0.1)]'
           }`}>
             {toast.type === 'error' ? (
-              <AlertCircle className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+              <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
             ) : (
-              <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <Check className="w-4 h-4 text-emerald-400 shrink-0" />
             )}
-            <span>{toast.message}</span>
+            <span className="font-medium">{toast.message}</span>
           </div>
         </div>
       )}
@@ -194,12 +194,12 @@ export default function App() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-2">
           
           {/* Tab Switcher */}
-          <div className="inline-flex p-1 rounded-xl bg-slate-900/80 border border-slate-800 text-xs font-mono backdrop-blur-sm">
+          <div className="inline-flex p-1 rounded-xl bg-black/40 border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] text-xs font-mono backdrop-blur-sm">
             <button
               onClick={() => setActiveTab('roadmap')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition ${
                 activeTab === 'roadmap'
-                  ? 'bg-indigo-600 text-white font-medium shadow-sm'
+                  ? 'bg-indigo-600 border border-indigo-400 text-white font-medium shadow-[0_0_14px_rgba(99,102,241,0.4)]'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -210,7 +210,7 @@ export default function App() {
               onClick={() => setActiveTab('catalog')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition ${
                 activeTab === 'catalog'
-                  ? 'bg-indigo-600 text-white font-medium shadow-sm'
+                  ? 'bg-indigo-600 border border-indigo-400 text-white font-medium shadow-[0_0_14px_rgba(99,102,241,0.4)]'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -225,7 +225,7 @@ export default function App() {
               onClick={syncGitHubData}
               disabled={isSyncingGit}
               title="รีเฟรชไฟล์ล่าสุดจาก GitHub"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-slate-800 text-slate-300 hover:text-white transition disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/40 hover:bg-white/[0.05] border border-white/[0.08] hover:border-white/[0.15] text-slate-300 hover:text-white transition shadow-sm disabled:opacity-50"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isSyncingGit ? 'animate-spin text-indigo-400' : ''}`} />
               <span className="hidden sm:inline">ซิงค์ Git</span>
@@ -234,7 +234,7 @@ export default function App() {
               href={`https://github.com/${REPO_OWNER}/${REPO_NAME}`}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-850 border border-slate-800 text-slate-300 hover:text-white transition"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/40 hover:bg-white/[0.05] border border-white/[0.08] hover:border-white/[0.15] text-slate-300 hover:text-white transition shadow-sm"
             >
               <Github className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">GitHub Repo</span>
@@ -269,7 +269,7 @@ export default function App() {
       </main>
 
       {/* Clean Developer Footer */}
-      <footer className="w-full border-t border-slate-800/80 bg-[#06090e] py-4 text-center text-xs text-slate-500 font-mono">
+      <footer className="w-full border-t border-white/[0.06] bg-[#05080e] py-5 text-center text-xs text-slate-500 font-mono">
         <p>C-Learn &bull; ระบบติดตามการฝึกซ้อมแข่ง C++ &bull; CEDT 2110-104 & 2110-328 &bull; เป้าหมาย 27 ก.ย.</p>
       </footer>
 

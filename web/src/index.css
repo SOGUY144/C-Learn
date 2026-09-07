@@ -8,14 +8,50 @@
 
 body {
   margin: 0;
-  background-color: #0b0f17;
+  background-color: #080c14;
   color: #f1f5f9;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', 'Noto Sans Thai', -apple-system, BlinkMacSystemFont, sans-serif;
   overflow-x: hidden;
   background-image: 
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.12), transparent),
-    radial-gradient(ellipse 60% 40% at 80% 60%, rgba(14, 165, 233, 0.05), transparent);
+    radial-gradient(ellipse 80% 40% at 50% -15%, rgba(99, 102, 241, 0.18), transparent 70%),
+    radial-gradient(ellipse 60% 30% at 85% 40%, rgba(14, 165, 233, 0.06), transparent 60%);
   background-attachment: fixed;
+}
+
+/* Subtle Linear-style grid */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Linear-style Card Class */
+.linear-card {
+  background: rgba(13, 18, 30, 0.65);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 
+    0 1px 2px 0 rgba(0, 0, 0, 0.4),
+    0 8px 24px -4px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.09);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.linear-card:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 
+    0 4px 20px -2px rgba(0, 0, 0, 0.5),
+    0 12px 32px -4px rgba(99, 102, 241, 0.08),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
 }
 
 /* Minimal subtle scrollbar */
@@ -24,7 +60,7 @@ body {
   height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b0f17;
+  background: #080c14;
 }
 ::-webkit-scrollbar-thumb {
   background: #1e293b;

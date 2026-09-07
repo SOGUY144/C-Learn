@@ -36,9 +36,9 @@ export default function CountdownTimer({ targetDate = '2026-09-27T09:00:00' }) {
 
   if (timeLeft.isPassed) {
     return (
-      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono text-xs">
+      <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono text-xs shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
         <Clock className="w-3.5 h-3.5" />
-        <span>เริ่มการแข่งขันแล้ว</span>
+        <span className="font-semibold">เริ่มการแข่งขันแล้ว</span>
       </div>
     );
   }
@@ -51,12 +51,14 @@ export default function CountdownTimer({ targetDate = '2026-09-27T09:00:00' }) {
   ];
 
   return (
-    <div className="flex items-center gap-1 bg-slate-900/90 border border-slate-800 rounded-xl px-2.5 py-1 text-xs font-mono backdrop-blur-sm">
-      <Clock className="w-3.5 h-3.5 text-indigo-400 mr-1 shrink-0" />
+    <div className="flex items-center gap-1.5 bg-[#0b0f19]/80 border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] rounded-xl px-2.5 py-1 text-xs font-mono backdrop-blur-md">
+      <Clock className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
       <div className="flex items-center gap-1 text-slate-300">
-        {items.map((item) => (
+        {items.map((item, idx) => (
           <React.Fragment key={item.label}>
-            <span className="font-semibold text-slate-100">{item.value}</span>
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-black/40 border border-white/[0.06] font-semibold text-slate-100 text-[11px] shadow-inner">
+              {item.value}
+            </span>
             <span className="text-[10px] text-slate-400 mr-0.5">{item.label}</span>
           </React.Fragment>
         ))}

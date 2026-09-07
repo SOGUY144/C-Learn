@@ -61,30 +61,32 @@ int main() {
   const lines = content.split('\n');
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
       <div 
-        className="relative w-full max-w-3xl max-h-[85vh] flex flex-col rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl overflow-hidden"
+        className="linear-card relative w-full max-w-3xl max-h-[85vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden !bg-[#0a0e1a]/95"
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-800 bg-slate-950/80">
+        <div className="flex items-center justify-between px-5 py-3.5 border-b border-white/[0.08] bg-black/40">
           <div className="flex items-center gap-2">
-            <FileCode className="w-4 h-4 text-indigo-400" />
-            <span className="font-mono font-semibold text-slate-200 text-xs">{file.name}</span>
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-slate-400">
-              {member}
+            <div className="p-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
+              <FileCode className="w-4 h-4" />
+            </div>
+            <span className="font-mono font-semibold text-slate-200 text-xs tracking-tight">{file.name}</span>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/[0.08] text-slate-400">
+              /{member}
             </span>
           </div>
 
           <div className="flex items-center gap-1.5 font-mono text-xs">
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-850 border border-slate-800 text-slate-300 hover:text-white transition"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/40 hover:bg-white/[0.05] border border-white/[0.08] text-slate-300 hover:text-white transition shadow-sm"
             >
               {copied ? (
                 <>
                   <Check className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-emerald-400">คัดลอกแล้ว</span>
+                  <span className="text-emerald-400 font-medium">คัดลอกแล้ว</span>
                 </>
               ) : (
                 <>
@@ -99,10 +101,10 @@ int main() {
                 href={file.html_url}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-850 border border-slate-800 text-slate-300 hover:text-white transition"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/40 hover:bg-white/[0.05] border border-white/[0.08] text-slate-300 hover:text-white transition shadow-sm"
                 title="เปิดดูใน GitHub"
               >
-                <span>เปิดใน GitHub</span>
+                <span>GitHub</span>
                 <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
               </a>
             )}
@@ -110,7 +112,7 @@ int main() {
             <button
               onClick={onClose}
               title="ปิด"
-              className="p-1 rounded-lg bg-slate-900 hover:bg-slate-850 border border-slate-800 text-slate-400 hover:text-slate-200 transition ml-1"
+              className="p-1.5 rounded-xl bg-black/40 hover:bg-white/[0.05] border border-white/[0.08] text-slate-400 hover:text-white transition ml-1"
             >
               <X className="w-4 h-4" />
             </button>
@@ -118,14 +120,14 @@ int main() {
         </div>
 
         {/* Code Content */}
-        <div className="flex-1 overflow-auto p-4 font-mono text-xs text-slate-300 bg-slate-950/90 leading-relaxed">
+        <div className="flex-1 overflow-auto p-4 font-mono text-xs text-slate-300 bg-black/50 leading-relaxed">
           {loading ? (
-            <div className="p-8 text-center text-slate-500 font-mono">กำลังดึงโค้ดจาก GitHub...</div>
+            <div className="p-12 text-center text-slate-500 font-mono">กำลังดึงโค้ดจาก GitHub...</div>
           ) : (
             <table className="w-full border-collapse">
               <tbody>
                 {lines.map((line, idx) => (
-                  <tr key={idx} className="hover:bg-slate-900/50 transition">
+                  <tr key={idx} className="hover:bg-white/[0.03] transition-colors">
                     <td className="w-10 pr-4 text-right select-none text-slate-600 font-mono text-[11px]">
                       {idx + 1}
                     </td>
@@ -140,8 +142,8 @@ int main() {
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-2 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-[11px] text-slate-500 font-mono">
-          <span>ภาษา C++</span>
+        <div className="px-5 py-2.5 border-t border-white/[0.06] bg-black/40 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+          <span>ภาษา C++ (C++17 / C++20)</span>
           <span>{lines.length} บรรทัด</span>
         </div>
       </div>

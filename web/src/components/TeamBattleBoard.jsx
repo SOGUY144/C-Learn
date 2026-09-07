@@ -30,14 +30,14 @@ export default function TeamBattleBoard({
       <div className="flex items-center justify-between mb-3 px-0.5">
         <div className="flex items-center gap-2">
           <h2 className="text-sm font-semibold font-mono tracking-tight text-slate-200">
-            สมาชิกในทีม
+            สถานะสมาชิกในทีม
           </h2>
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-900 text-slate-400 border border-slate-800">
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/[0.04] text-slate-400 border border-white/[0.08]">
             3 คน
           </span>
         </div>
         <span className="text-xs font-mono text-slate-400">
-          ติดตามวันที่ {activeDay}
+          ติดตามภารกิจวันที่ {activeDay}
         </span>
       </div>
 
@@ -55,10 +55,10 @@ export default function TeamBattleBoard({
           return (
             <div 
               key={key}
-              className={`relative flex flex-col justify-between p-4 rounded-2xl bg-slate-900/60 backdrop-blur-sm border transition-all duration-200 hover:border-slate-700/80 shadow-sm ${
+              className={`linear-card relative flex flex-col justify-between p-5 rounded-2xl transition-all duration-200 ${
                 isQuestDone 
-                  ? 'border-emerald-500/40 ring-1 ring-emerald-500/20' 
-                  : 'border-slate-800/80'
+                  ? '!border-emerald-500/40 shadow-[0_8px_24px_-4px_rgba(16,185,129,0.12),inset_0_1px_0_0_rgba(16,185,129,0.25)]' 
+                  : ''
               }`}
             >
               {/* Member Meta */}
@@ -84,22 +84,30 @@ export default function TeamBattleBoard({
                   </div>
 
                   {/* Streak Pill */}
-                  <div className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 font-mono text-xs font-medium">
+                  <div className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 font-mono text-xs font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
                     <Flame className="w-3 h-3 text-amber-400" />
                     <span>{m.streak || 0} วันติด</span>
                   </div>
                 </div>
 
                 {/* Day Status Row */}
-                <div className="mt-3.5 flex items-center justify-between px-3 py-1.5 rounded-xl bg-slate-950/70 border border-slate-800/80 text-xs font-mono">
+                <div className={`mt-3.5 flex items-center justify-between px-3 py-2 rounded-xl text-xs font-mono border transition-all ${
+                  isQuestDone 
+                    ? 'bg-emerald-500/[0.08] border-emerald-500/30 text-emerald-300' 
+                    : 'bg-black/30 border-white/[0.06] text-slate-400'
+                }`}>
                   <span className="text-slate-400">วันที่ {activeDay}</span>
                   {isQuestDone ? (
-                    <span className="inline-flex items-center gap-1 text-emerald-400 font-medium text-xs">
+                    <span className="inline-flex items-center gap-1.5 text-emerald-400 font-medium text-xs">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                      </span>
                       <Check className="w-3.5 h-3.5" />
                       <span>ส่งงานแล้ว</span>
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-slate-400 text-xs">
+                    <span className="inline-flex items-center gap-1.5 text-slate-400 text-xs">
                       <Clock className="w-3.5 h-3.5 text-slate-500" />
                       <span>ยังไม่ส่ง</span>
                     </span>
@@ -108,14 +116,14 @@ export default function TeamBattleBoard({
 
                 {/* Progress Indicators */}
                 <div className="grid grid-cols-2 gap-2 mt-2.5 text-xs font-mono">
-                  <div className="px-3 py-2 rounded-xl bg-slate-950/50 border border-slate-800/70">
+                  <div className="px-3 py-2 rounded-xl bg-black/30 border border-white/[0.05] shadow-inner">
                     <span className="text-slate-400 block text-[10px]">ดูคลิปแล้ว</span>
                     <div className="flex items-baseline gap-1 mt-0.5">
                       <span className="text-sm font-semibold text-slate-100">{videosDoneCount}</span>
                       <span className="text-[10px] text-slate-400">/ 161</span>
                     </div>
                   </div>
-                  <div className="px-3 py-2 rounded-xl bg-slate-950/50 border border-slate-800/70">
+                  <div className="px-3 py-2 rounded-xl bg-black/30 border border-white/[0.05] shadow-inner">
                     <span className="text-slate-400 block text-[10px]">ส่งโจทย์</span>
                     <div className="flex items-baseline gap-1 mt-0.5">
                       <span className="text-sm font-semibold text-slate-100">{questsDoneCount}</span>
@@ -126,7 +134,7 @@ export default function TeamBattleBoard({
               </div>
 
               {/* Git Section */}
-              <div className="mt-3.5 pt-3 border-t border-slate-800/70">
+              <div className="mt-3.5 pt-3 border-t border-white/[0.06]">
                 <div className="flex items-center justify-between text-xs text-slate-400 font-mono mb-2">
                   <span className="flex items-center gap-1.5">
                     <Code2 className="w-3.5 h-3.5 text-indigo-400" />
@@ -141,12 +149,12 @@ export default function TeamBattleBoard({
                       <button
                         key={idx}
                         onClick={() => onViewCode(key, file)}
-                        className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-slate-950/60 hover:bg-slate-850 border border-slate-800/80 hover:border-slate-700 text-left transition group text-xs font-mono"
+                        className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-black/30 hover:bg-white/[0.05] border border-white/[0.06] hover:border-white/[0.14] text-left transition group text-xs font-mono"
                       >
                         <span className="text-slate-300 group-hover:text-white truncate text-xs">
                           {file.name}
                         </span>
-                        <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-300 shrink-0" />
+                        <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-200 group-hover:translate-x-0.5 transition shrink-0" />
                       </button>
                     ))}
                   </div>
