@@ -99,7 +99,7 @@ export function loadState() {
     settings: {
       discordWebhook: '',
       targetContestDate: '2026-09-27T09:00:00',
-      firebaseConfig: null
+      firebaseDatabaseUrl: ''
     }
   };
 
@@ -128,7 +128,7 @@ export function loadState() {
 }
 
 /**
- * Save state to localStorage and optionally sync to cloud
+ * Save state to localStorage
  */
 export function saveState(state) {
   try {
@@ -138,4 +138,96 @@ export function saveState(state) {
   } catch (err) {
     console.error('Error saving state to localStorage:', err);
   }
+}
+
+/**
+ * Normalizes a Firebase Realtime Database URL
+ */
+export function normalizeFirebaseUrl(url) {
+  if (!url) return '';
+  let clean = url.trim().replace(/\/$/, '');
+  if (!clean.startsWith('http://') && !clean.startsWith('https://')) {
+    clean = 'https://' + clean;
+  }
+  return clean;
+}
+
+/**
+ * Fetch latest state from Firebase Realtime Database
+ */
+export async function fetchCloudState(databaseUrl) {
+  const url = normalizeFirebaseUrl(databaseUrl);
+  if (!url) return null;
+
+  const res = await fetch(`${url}/c_learn_state.json`);
+  if (!res.ok) {
+    throw new Error(`Cloud fetch failed with HTTP ${res.status}`);
+  }
+  return await res.json();
+}
+
+/**
+ * Push local state to Firebase Realtime Database
+ */
+export async function pushCloudState(databaseUrl, state) {
+  const url = normalizeFirebaseUrl(databaseUrl);
+  if (!url) return;
+
+  const payload = {
+    members: state.members,
+    lastUpdated: new Date().toISOString()
+  };
+
+  const res = await fetch(`${url}/c_learn_state.json`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  if (!res.ok) {
+    throw new Error(`Cloud save failed with HTTP ${res.status}`);
+  }
+  return await res.json();
+}
+
+/**
+ * Subscribe to realtime updates from Firebase via Server-Sent Events (SSE)
+ */
+export function subscribeCloudState(databaseUrl, onData) {
+  const url = normalizeFirebaseUrl(databaseUrl);
+  if (!url || typeof EventSource === 'undefined') {
+    return () => {};
+  }
+
+  let eventSource = null;
+  try {
+    eventSource = new EventSource(`${url}/c_learn_state.json`);
+
+    eventSource.addEventListener('put', (e) => {
+      try {
+        const payload = JSON.parse(e.data);
+        if (payload && payload.path === '/' && payload.data && payload.data.members) {
+          onData(payload.data);
+        } else if (payload && payload.path && payload.path.startsWith('/members')) {
+          fetchCloudState(databaseUrl).then(data => {
+            if (data && data.members) onData(data);
+          }).catch(console.warn);
+        }
+      } catch (err) {
+        console.warn('Firebase SSE parse warning:', err);
+      }
+    });
+
+    eventSource.onerror = (err) => {
+      console.warn('Firebase SSE connection issue:', err);
+    };
+  } catch (err) {
+    console.warn('Failed to initialize EventSource:', err);
+  }
+
+  return () => {
+    if (eventSource) {
+      eventSource.close();
+    }
+  };
 }

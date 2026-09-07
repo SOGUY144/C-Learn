@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, Settings, Trash2, Check, AlertCircle, Save } from 'lucide-react';
+import { X, Settings, Trash2, Check, AlertCircle, Save, Database, Cloud } from 'lucide-react';
 import { sendDiscordWebhook, buildDiscordReportPayload } from '../services/discord';
+import { normalizeFirebaseUrl } from '../services/storage';
 
 export default function SettingsModal({
   settings = {},
@@ -11,8 +12,11 @@ export default function SettingsModal({
 }) {
   const [webhookUrl, setWebhookUrl] = useState(settings.discordWebhook || '');
   const [contestDate, setContestDate] = useState(settings.targetContestDate || '2026-09-27T09:00:00');
+  const [firebaseUrl, setFirebaseUrl] = useState(settings.firebaseDatabaseUrl || '');
   const [testStatus, setTestStatus] = useState(null);
   const [isTesting, setIsTesting] = useState(false);
+  const [firebaseStatus, setFirebaseStatus] = useState(null);
+  const [isTestingFirebase, setIsTestingFirebase] = useState(false);
 
   async function handleTestWebhook() {
     if (!webhookUrl) {
@@ -34,10 +38,31 @@ export default function SettingsModal({
     }
   }
 
+  async function handleTestFirebase() {
+    if (!firebaseUrl) {
+      setFirebaseStatus({ type: 'error', message: 'กรุณากรอก Firebase Realtime Database URL ก่อนทดสอบ' });
+      return;
+    }
+
+    setIsTestingFirebase(true);
+    setFirebaseStatus(null);
+    try {
+      const clean = normalizeFirebaseUrl(firebaseUrl);
+      const res = await fetch(`${clean}/.json?shallow=true`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setFirebaseStatus({ type: 'success', message: 'เชื่อมต่อ Firebase สำเร็จ! ระบบพร้อมซิงค์สดระหว่างเพื่อนในทีม' });
+    } catch (err) {
+      setFirebaseStatus({ type: 'error', message: `เชื่อมต่อไม่สำเร็จ: ${err.message} (โปรดตรวจสอบ URL และ Rules ว่าเป็น Test Mode หรือเปิด Read/Write แล้ว)` });
+    } finally {
+      setIsTestingFirebase(false);
+    }
+  }
+
   function handleSave() {
     onSaveSettings({
       discordWebhook: webhookUrl.trim(),
-      targetContestDate: contestDate
+      targetContestDate: contestDate,
+      firebaseDatabaseUrl: normalizeFirebaseUrl(firebaseUrl)
     });
     onClose();
   }
@@ -105,6 +130,51 @@ export default function SettingsModal({
                   <AlertCircle className="w-3.5 h-3.5 shrink-0 text-rose-400" />
                 )}
                 <span>{testStatus.message}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Firebase Realtime Database URL */}
+          <div className="pt-3 border-t border-white/[0.06]">
+            <div className="flex items-center gap-1.5 mb-1">
+              <Cloud className="w-3.5 h-3.5 text-indigo-400" />
+              <label className="text-slate-300 font-medium">
+                Firebase Realtime Database URL (ซิงค์สดแบบ Real-time)
+              </label>
+            </div>
+            <input
+              type="text"
+              placeholder="https://your-project-default-rtdb.firebaseio.com"
+              value={firebaseUrl}
+              onChange={e => setFirebaseUrl(e.target.value)}
+              className="w-full px-3.5 py-2 rounded-xl bg-black/40 border border-white/[0.08] text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500/60 focus:ring-1 focus:ring-indigo-500/30 transition shadow-inner"
+            />
+            <div className="flex items-center justify-between mt-2">
+              <span className="text-[10px] text-slate-400">
+                เพื่อให้เพื่อนในทีม (GUY, FAN, HAN) ติ๊กคลิปและภารกิจแล้วอัปเดตตรงกันทันที
+              </span>
+              <button
+                type="button"
+                onClick={handleTestFirebase}
+                disabled={isTestingFirebase || !firebaseUrl}
+                className="px-2.5 py-1 rounded-lg bg-black/40 hover:bg-white/[0.05] border border-white/[0.08] text-slate-300 hover:text-white text-[11px] disabled:opacity-40 transition shadow-sm"
+              >
+                {isTestingFirebase ? 'กำลังทดสอบ...' : 'ทดสอบเชื่อมต่อ'}
+              </button>
+            </div>
+
+            {firebaseStatus && (
+              <div className={`mt-2 p-2.5 rounded-xl border flex items-center gap-2 text-[11px] ${
+                firebaseStatus.type === 'success' 
+                  ? 'bg-emerald-500/[0.08] border-emerald-500/30 text-emerald-300' 
+                  : 'bg-rose-500/[0.08] border-rose-500/30 text-rose-300'
+              }`}>
+                {firebaseStatus.type === 'success' ? (
+                  <Check className="w-3.5 h-3.5 shrink-0 text-emerald-400" />
+                ) : (
+                  <AlertCircle className="w-3.5 h-3.5 shrink-0 text-rose-400" />
+                )}
+                <span>{firebaseStatus.message}</span>
               </div>
             )}
           </div>

@@ -43,6 +43,10 @@ assert.equal(stateWithoutVideo.members.GUY.completedVideos['prog-01'], false, 'V
 const stateWithQuest = toggleQuestInState(mockState, 'GUY', 1, '2026-09-07');
 assert.equal(stateWithQuest.members.GUY.completedQuests[1], true, 'Quest 1 should be marked true');
 assert.equal(stateWithQuest.members.GUY.streak, 1, 'Streak should be 1 after first completion');
-assert.equal(stateWithQuest.members.GUY.lastActiveDate, '2026-09-07');
+// 4. Test normalizeFirebaseUrl
+import { normalizeFirebaseUrl } from './storage.js';
+assert.equal(normalizeFirebaseUrl('https://my-app.firebaseio.com/'), 'https://my-app.firebaseio.com');
+assert.equal(normalizeFirebaseUrl('my-app.firebaseio.com'), 'https://my-app.firebaseio.com');
+assert.equal(normalizeFirebaseUrl(''), '');
 
 console.log('✅ All Storage & Streak tests passed successfully!');

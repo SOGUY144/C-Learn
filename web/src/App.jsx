@@ -5,7 +5,8 @@ import {
   RefreshCw, 
   Github, 
   Check, 
-  AlertCircle 
+  AlertCircle,
+  Cloud
 } from 'lucide-react';
 
 import Header from './components/Header';
@@ -19,7 +20,10 @@ import {
   loadState, 
   saveState, 
   toggleVideoInState, 
-  toggleQuestInState 
+  toggleQuestInState,
+  fetchCloudState,
+  pushCloudState,
+  subscribeCloudState
 } from './services/storage';
 import { 
   fetchMemberFiles, 
@@ -31,7 +35,7 @@ import {
   buildDiscordReportPayload, 
   sendDiscordWebhook 
 } from './services/discord';
-import { INITIAL_MEMBERS } from './data/curriculum';
+import { INITIAL_MEMBERS, DAYS_ROADMAP } from './data/curriculum';
 
 export default function App() {
   const [state, setState] = useState(() => loadState());
@@ -46,6 +50,7 @@ export default function App() {
   const [selectedCodeFile, setSelectedCodeFile] = useState(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSendingDiscord, setIsSendingDiscord] = useState(false);
+  const [isCloudConnected, setIsCloudConnected] = useState(false);
   const [toast, setToast] = useState(null);
 
   function showToast(message, type = 'success') {
@@ -53,18 +58,79 @@ export default function App() {
     setTimeout(() => setToast(null), 3000);
   }
 
-  function updateState(updater) {
+  function updateState(updater, syncToCloud = true) {
     setState(prev => {
       const next = typeof updater === 'function' ? updater(prev) : updater;
       saveState(next);
+      if (syncToCloud && next.settings?.firebaseDatabaseUrl) {
+        pushCloudState(next.settings.firebaseDatabaseUrl, next).catch(err => {
+          console.warn('Cloud sync error:', err.message);
+        });
+      }
       return next;
     });
   }
+
+  // Real-time Cloud Sync Subscription
+  useEffect(() => {
+    const dbUrl = state.settings?.firebaseDatabaseUrl;
+    if (!dbUrl) {
+      setIsCloudConnected(false);
+      return;
+    }
+
+    let isMounted = true;
+
+    // 1. Initial fetch from Cloud
+    fetchCloudState(dbUrl)
+      .then(cloudData => {
+        if (!isMounted || !cloudData || !cloudData.members) return;
+        setIsCloudConnected(true);
+        setState(prev => {
+          const merged = {
+            ...prev,
+            members: {
+              ...prev.members,
+              ...cloudData.members
+            }
+          };
+          saveState(merged);
+          return merged;
+        });
+      })
+      .catch(err => {
+        console.warn('Initial cloud sync error:', err.message);
+        setIsCloudConnected(false);
+      });
+
+    // 2. Real-time listener via SSE
+    const unsubscribe = subscribeCloudState(dbUrl, (cloudData) => {
+      if (!isMounted || !cloudData || !cloudData.members) return;
+      setIsCloudConnected(true);
+      setState(prev => {
+        const merged = {
+          ...prev,
+          members: {
+            ...prev.members,
+            ...cloudData.members
+          }
+        };
+        saveState(merged);
+        return merged;
+      });
+    });
+
+    return () => {
+      isMounted = false;
+      unsubscribe();
+    };
+  }, [state.settings?.firebaseDatabaseUrl]);
 
   async function syncGitHubData() {
     setIsSyncingGit(true);
     const members = ['GUY', 'FAN', 'HAN'];
     const newGitData = {};
+    let autoCompletedCount = 0;
 
     for (const m of members) {
       try {
@@ -81,6 +147,47 @@ export default function App() {
     }
 
     setGitData(newGitData);
+
+    // Auto-detect Quests from GitHub files
+    updateState(prev => {
+      let stateChanged = false;
+      const nextMembers = { ...prev.members };
+
+      members.forEach(mKey => {
+        const mFiles = newGitData[mKey]?.files || [];
+        const currentM = nextMembers[mKey] || { ...INITIAL_MEMBERS[mKey] };
+        const currentCompleted = { ...(currentM.completedQuests || {}) };
+
+        DAYS_ROADMAP.forEach(d => {
+          const dayPrefix = String(d.day).padStart(2, '0');
+          // Match if member has pushed file starting with "01-" or "01"
+          const hasFile = mFiles.some(f => {
+            const lower = f.name.toLowerCase();
+            return lower.startsWith(`${dayPrefix}-`) || lower.startsWith(`${dayPrefix}_`) || lower.includes(`${dayPrefix}`);
+          });
+
+          if (hasFile && !currentCompleted[d.day]) {
+            currentCompleted[d.day] = true;
+            stateChanged = true;
+            autoCompletedCount++;
+          }
+        });
+
+        if (stateChanged) {
+          nextMembers[mKey] = {
+            ...currentM,
+            completedQuests: currentCompleted
+          };
+        }
+      });
+
+      if (stateChanged) {
+        showToast(`ซิงค์ Git สำเร็จ: ตรวจพบและบันทึกการส่งงานอัตโนมัติ ${autoCompletedCount} งาน`);
+        return { ...prev, members: nextMembers };
+      }
+      return prev;
+    });
+
     setIsSyncingGit(false);
   }
 
@@ -219,12 +326,34 @@ export default function App() {
             </button>
           </div>
 
-          {/* GitHub Sync Button & Link */}
+          {/* GitHub & Cloud Sync Buttons */}
           <div className="flex items-center gap-2 font-mono text-xs">
+            {isCloudConnected ? (
+              <div 
+                title={`เชื่อมต่อ Real-time Cloud สำเร็จ: ${state.settings?.firebaseDatabaseUrl}`}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-mono shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span>Cloud สด</span>
+              </div>
+            ) : (
+              <button
+                onClick={() => setIsSettingsOpen(true)}
+                title="ตั้งค่า Firebase Database เพื่อซิงค์สดแบบ Real-time ระหว่างเพื่อนในทีม"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/40 hover:bg-white/[0.05] border border-white/[0.08] hover:border-white/[0.15] text-slate-400 hover:text-slate-200 transition shadow-sm"
+              >
+                <Cloud className="w-3.5 h-3.5 text-slate-400" />
+                <span className="hidden sm:inline">ต่อ Cloud ซิงค์สด</span>
+              </button>
+            )}
+
             <button
               onClick={syncGitHubData}
               disabled={isSyncingGit}
-              title="รีเฟรชไฟล์ล่าสุดจาก GitHub"
+              title="รีเฟรชไฟล์ล่าสุดจาก GitHub และตรวจจับงานที่ส่งอัตโนมัติ"
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/40 hover:bg-white/[0.05] border border-white/[0.08] hover:border-white/[0.15] text-slate-300 hover:text-white transition shadow-sm disabled:opacity-50"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isSyncingGit ? 'animate-spin text-indigo-400' : ''}`} />
