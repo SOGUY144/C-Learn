@@ -27,6 +27,12 @@
 *.x86_64
 *.hex
 
+# MSVC build & debug files
+*.ilk
+*.pdb
+*.idb
+*.exp
+
 # Build directories & IDE configs
 build/
 bin/
@@ -37,4 +43,7 @@ out/
 *.vscode
 .idea/
 *.swp
-*.DS_Store
+# Web Dependencies & Build
+node_modules/
+dist/
+.superpowers/
