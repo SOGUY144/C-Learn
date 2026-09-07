@@ -90,6 +90,8 @@ export function toggleQuestInState(state, memberId, dayNum, todayStr) {
   };
 }
 
+export const DEFAULT_FIREBASE_URL = 'https://soguy-6b5d8-default-rtdb.asia-southeast1.firebasedatabase.app';
+
 /**
  * Load state from localStorage with safe fallback
  */
@@ -99,7 +101,7 @@ export function loadState() {
     settings: {
       discordWebhook: '',
       targetContestDate: '2026-09-27T09:00:00',
-      firebaseDatabaseUrl: ''
+      firebaseDatabaseUrl: DEFAULT_FIREBASE_URL
     }
   };
 
@@ -111,6 +113,7 @@ export function loadState() {
     if (!raw) return defaultState;
 
     const parsed = JSON.parse(raw);
+    const savedDbUrl = parsed.settings?.firebaseDatabaseUrl;
     return {
       members: {
         ...defaultState.members,
@@ -118,7 +121,8 @@ export function loadState() {
       },
       settings: {
         ...defaultState.settings,
-        ...(parsed.settings || {})
+        ...(parsed.settings || {}),
+        firebaseDatabaseUrl: savedDbUrl || DEFAULT_FIREBASE_URL
       }
     };
   } catch (err) {

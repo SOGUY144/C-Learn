@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { X, Settings, Trash2, Check, AlertCircle, Save, Database, Cloud } from 'lucide-react';
 import { sendDiscordWebhook, buildDiscordReportPayload } from '../services/discord';
-import { normalizeFirebaseUrl } from '../services/storage';
+import { normalizeFirebaseUrl, DEFAULT_FIREBASE_URL } from '../services/storage';
 
 export default function SettingsModal({
   settings = {},
@@ -12,7 +12,7 @@ export default function SettingsModal({
 }) {
   const [webhookUrl, setWebhookUrl] = useState(settings.discordWebhook || '');
   const [contestDate, setContestDate] = useState(settings.targetContestDate || '2026-09-27T09:00:00');
-  const [firebaseUrl, setFirebaseUrl] = useState(settings.firebaseDatabaseUrl || '');
+  const [firebaseUrl, setFirebaseUrl] = useState(settings.firebaseDatabaseUrl || DEFAULT_FIREBASE_URL);
   const [testStatus, setTestStatus] = useState(null);
   const [isTesting, setIsTesting] = useState(false);
   const [firebaseStatus, setFirebaseStatus] = useState(null);
