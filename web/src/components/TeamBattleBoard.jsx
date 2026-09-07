@@ -43,8 +43,15 @@ export default function TeamBattleBoard({
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
         {memberKeys.map(key => {
-          const m = members[key] || { id: key, name: key, streak: 0, completedQuests: {}, completedVideos: {} };
-          const isQuestDone = !!m.completedQuests[activeDay];
+          const rawM = members[key] || {};
+          const m = {
+            id: key,
+            name: key,
+            streak: rawM.streak || 0,
+            completedQuests: rawM.completedQuests || {},
+            completedVideos: rawM.completedVideos || {}
+          };
+          const isQuestDone = !!(m.completedQuests?.[activeDay]);
           const videosDoneCount = Object.values(m.completedVideos || {}).filter(Boolean).length;
           const questsDoneCount = Object.values(m.completedQuests || {}).filter(Boolean).length;
           const memberGit = gitData[key] || { files: [], latestCommit: null };

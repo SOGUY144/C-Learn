@@ -14,7 +14,7 @@ export default function Header({
   const memberList = Object.values(members);
 
   memberList.forEach(m => {
-    totalQuestsDone += Object.values(m.completedQuests || {}).filter(Boolean).length;
+    totalQuestsDone += Object.values(m?.completedQuests || {}).filter(Boolean).length;
   });
 
   const maxQuests = 20 * 3;

@@ -34,11 +34,12 @@ export function toggleVideoInState(state, memberId, videoId) {
   const member = state.members[memberId];
   if (!member) return state;
 
-  const currentStatus = !!member.completedVideos[videoId];
+  const completedVideos = member.completedVideos || {};
+  const currentStatus = !!completedVideos[videoId];
   const updatedMember = {
     ...member,
     completedVideos: {
-      ...member.completedVideos,
+      ...completedVideos,
       [videoId]: !currentStatus
     }
   };
@@ -59,11 +60,12 @@ export function toggleQuestInState(state, memberId, dayNum, todayStr) {
   const member = state.members[memberId];
   if (!member) return state;
 
-  const currentStatus = !!member.completedQuests[dayNum];
+  const completedQuests = member.completedQuests || {};
+  const currentStatus = !!completedQuests[dayNum];
   const newStatus = !currentStatus;
   const today = todayStr || new Date().toISOString().split('T')[0];
 
-  let newStreak = member.streak;
+  let newStreak = member.streak || 0;
   let newLastActive = member.lastActiveDate;
 
   if (newStatus) {
@@ -76,7 +78,7 @@ export function toggleQuestInState(state, memberId, dayNum, todayStr) {
     streak: newStreak,
     lastActiveDate: newLastActive,
     completedQuests: {
-      ...member.completedQuests,
+      ...completedQuests,
       [dayNum]: newStatus
     }
   };
@@ -91,6 +93,60 @@ export function toggleQuestInState(state, memberId, dayNum, todayStr) {
 }
 
 export const DEFAULT_FIREBASE_URL = 'https://soguy-6b5d8-default-rtdb.asia-southeast1.firebasedatabase.app';
+
+/**
+ * Normalizes member data ensuring completedQuests and completedVideos are safe dictionaries
+ */
+export function sanitizeState(rawState) {
+  if (!rawState) return null;
+  const rawMembers = rawState.members || {};
+  const members = {};
+
+  ['GUY', 'FAN', 'HAN'].forEach(key => {
+    const m = rawMembers[key] || {};
+    
+    // Normalize completedQuests whether it is an Array from Firebase or an Object
+    const rawQuests = m.completedQuests || {};
+    const completedQuests = {};
+    if (Array.isArray(rawQuests)) {
+      rawQuests.forEach((val, idx) => {
+        if (val) completedQuests[idx] = true;
+      });
+    } else if (typeof rawQuests === 'object') {
+      Object.keys(rawQuests).forEach(k => {
+        if (rawQuests[k]) completedQuests[k] = true;
+      });
+    }
+
+    // Normalize completedVideos
+    const rawVideos = m.completedVideos || {};
+    const completedVideos = {};
+    if (typeof rawVideos === 'object') {
+      Object.keys(rawVideos).forEach(k => {
+        if (k !== 'init' && rawVideos[k]) completedVideos[k] = true;
+      });
+    }
+
+    members[key] = {
+      id: m.id || key,
+      name: m.name || key,
+      streak: Number(m.streak) || 0,
+      lastActiveDate: m.lastActiveDate || null,
+      completedVideos,
+      completedQuests
+    };
+  });
+
+  return {
+    ...rawState,
+    members,
+    settings: {
+      discordWebhook: rawState.settings?.discordWebhook || '',
+      targetContestDate: rawState.settings?.targetContestDate || '2026-09-27T09:00:00',
+      firebaseDatabaseUrl: rawState.settings?.firebaseDatabaseUrl || DEFAULT_FIREBASE_URL
+    }
+  };
+}
 
 /**
  * Load state from localStorage with safe fallback
@@ -114,7 +170,7 @@ export function loadState() {
 
     const parsed = JSON.parse(raw);
     const savedDbUrl = parsed.settings?.firebaseDatabaseUrl;
-    return {
+    const combined = {
       members: {
         ...defaultState.members,
         ...(parsed.members || {})
@@ -125,6 +181,7 @@ export function loadState() {
         firebaseDatabaseUrl: savedDbUrl || DEFAULT_FIREBASE_URL
       }
     };
+    return sanitizeState(combined) || defaultState;
   } catch (err) {
     console.error('Error loading state from localStorage:', err);
     return defaultState;
@@ -167,7 +224,8 @@ export async function fetchCloudState(databaseUrl) {
   if (!res.ok) {
     throw new Error(`Cloud fetch failed with HTTP ${res.status}`);
   }
-  return await res.json();
+  const data = await res.json();
+  return sanitizeState(data);
 }
 
 /**
@@ -211,7 +269,8 @@ export function subscribeCloudState(databaseUrl, onData) {
       try {
         const payload = JSON.parse(e.data);
         if (payload && payload.path === '/' && payload.data && payload.data.members) {
-          onData(payload.data);
+          const sanitized = sanitizeState(payload.data);
+          if (sanitized) onData(sanitized);
         } else if (payload && payload.path && payload.path.startsWith('/members')) {
           fetchCloudState(databaseUrl).then(data => {
             if (data && data.members) onData(data);
